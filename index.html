@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>第二種衛生管理者 ○×問題集</title>
+<meta name="description" content="第二種衛生管理者試験の○×問題集。関係法令・労働衛生・労働生理の3科目。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="衛生管理者○×">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --panel:#F4F6F6; --panel-2:#ECF0F0;
+  --line:#E3E8E8; --line-strong:#CCD4D4;
+  --ink:#1B2324; --muted:#636E6F; --faint:#9AA3A4;
+  --accent:#1F6E64; --accent-ink:#FFFFFF; --accent-soft:#E4F1EE;
+  --pen:#D33D2E; --pen-soft:#FCEBE8; --ng-bar:#E8897C;
+  --c-law:#4A5B91; --c-hyg:#2F7468; --c-phy:#8A4E71;
+  --gothic:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",system-ui,sans-serif;
+  --mincho:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;background:var(--bg)}
+html,body{height:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--gothic);font-size:16px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  overscroll-behavior-y:none;
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+#app{max-width:480px;margin:0 auto;padding:0 20px;min-height:100%;display:flex;flex-direction:column}
+body[data-view="quiz"] #app{height:100%}
+.view{display:flex;flex-direction:column;flex:1;min-height:0}
+
+/* ---------- ホーム ---------- */
+.home-head{padding:40px 0 0}
+h1{font-family:var(--mincho);font-weight:700;font-size:2rem;line-height:1.35;letter-spacing:.05em;margin:0}
+.sub{margin:6px 0 0;font-size:1rem;color:var(--muted);letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.sub svg{flex:none}
+.summary{margin:28px 0 0;padding:18px 18px 16px;background:var(--panel);border-radius:18px}
+.summary-line{margin:0 0 12px;font-size:.95rem;color:var(--muted)}
+.summary-line b{color:var(--ink);font-size:1.55rem;font-weight:700;margin:0 .12em;font-variant-numeric:tabular-nums}
+.meter{display:flex;height:6px;border-radius:999px;background:var(--panel-2);overflow:hidden}
+.summary .meter{background:#fff}
+.meter i{display:block;height:100%;transition:width .4s ease}
+.meter .ok{background:var(--accent)}
+.meter .ng{background:var(--ng-bar)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 18px;margin:10px 0 0;padding:0;list-style:none;font-size:.8rem;color:var(--muted)}
+.legend li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:1px;background:var(--sw)}
+.legend b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;margin-left:.3em}
+
+.group{border:0;margin:26px 0 0;padding:0;min-width:0}
+.group legend{font-size:.85rem;color:var(--muted);margin:0 0 10px;padding:0 2px;letter-spacing:.06em}
+.cat-list{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.cat{display:grid;grid-template-columns:22px 1fr auto;column-gap:12px;row-gap:9px;align-items:center;padding:13px 16px 14px;cursor:pointer;position:relative;transition:background .15s}
+.cat + .cat{border-top:1px solid var(--line)}
+.cat:has(input:checked){background:var(--panel)}
+.cat input,.seg input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--faint);display:grid;place-items:center;transition:border-color .15s}
+.cat input:checked + .radio{border-color:var(--accent)}
+.cat input:checked + .radio::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.cat input:focus-visible + .radio{outline:2px solid var(--accent);outline-offset:3px}
+.cat-name{font-weight:500;display:flex;align-items:center;gap:8px}
+.cat-name::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cat,var(--faint))}
+.cat[data-cat="all"] .cat-name::before{display:none}
+.cat-count{font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.cat .meter{grid-column:2 / 4;height:4px}
+
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--panel);border-radius:14px;padding:4px;gap:4px}
+.seg label{position:relative}
+.seg span{display:block;text-align:center;padding:9px 4px;border-radius:10px;font-size:.92rem;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+.seg input:checked + span{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(20,40,40,.12)}
+.seg input:focus-visible + span{outline:2px solid var(--accent);outline-offset:1px}
+.seg-help{font-size:.8rem;color:var(--muted);margin:8px 2px 0;line-height:1.6}
+
+.primary{appearance:none;border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;letter-spacing:.04em;padding:17px 20px;border-radius:16px;cursor:pointer;width:100%;transition:transform .1s,filter .15s}
+.primary:active{transform:scale(.985)}
+.primary:disabled{background:var(--panel-2);color:var(--faint);cursor:not-allowed;transform:none}
+.primary small{font-size:.86rem;font-weight:500;margin-left:.4em;opacity:.85}
+.start{margin-top:28px}
+.hint{min-height:1.5em;font-size:.84rem;color:var(--muted);margin:10px 2px 0;text-align:center}
+.home-foot{margin-top:auto;padding:28px 0 22px;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--faint)}
+.home-foot p{margin:0}
+.textbtn{appearance:none;background:none;border:0;color:var(--muted);font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 0}
+.textbtn.danger{color:var(--pen);font-weight:700}
+
+/* ---------- 出題 ---------- */
+.quiz-top{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;padding:10px 0 10px}
+.iconbtn{appearance:none;width:40px;height:40px;margin-left:-8px;border-radius:12px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.iconbtn:active{background:var(--panel)}
+.q-label{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-count{font-variant-numeric:tabular-nums;font-size:.95rem;font-weight:500}
+.q-count span{color:var(--faint)}
+.track{height:3px;background:var(--panel-2);border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+
+.stage{flex:1;min-height:0;display:flex;align-items:center;padding:16px 0 18px}
+.sheet{position:relative;width:100%;height:min(100%,560px);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 1px 2px rgba(20,40,40,.04),0 14px 34px -22px rgba(20,50,48,.28);padding:18px 22px 20px;display:flex;flex-direction:column;overflow:hidden;transition:transform .22s ease,opacity .22s ease}
+.sheet.leave{transform:translateX(-24px);opacity:0}
+.sheet.enter{transition:none;transform:translateX(24px);opacity:0}
+.sheet-meta{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--muted);min-height:22px;flex:none}
+.q-no{font-family:var(--mincho);font-weight:700;font-size:.95rem;color:var(--ink);letter-spacing:.04em}
+.tag{display:inline-flex;align-items:center;gap:6px;color:var(--cat);font-weight:500}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.prev{margin-left:auto;font-size:.74rem;padding:1px 9px;border-radius:99px}
+.prev.ng{background:var(--pen-soft);color:var(--pen)}
+.prev.ok{background:var(--accent-soft);color:var(--accent)}
+.sheet-body{flex:1;min-height:0;overflow-y:auto;margin:0 -6px;padding:0 6px;overscroll-behavior:contain}
+.stmt{font-family:var(--mincho);font-weight:600;font-size:1.26rem;line-height:1.9;letter-spacing:.02em;margin:20px 0 0;padding-right:4px}
+.verdict{margin-top:22px;padding-top:18px;border-top:1.5px dashed var(--line-strong);animation:rise .28s ease both}
+.v-head{display:flex;align-items:center;gap:12px;min-height:40px}
+.chip{font-size:.85rem;font-weight:700;padding:3px 12px;border-radius:99px;letter-spacing:.06em}
+.chip.ok{background:var(--accent-soft);color:var(--accent)}
+.chip.ng{background:var(--pen-soft);color:var(--pen)}
+.v-ans{font-size:.95rem;color:var(--muted)}
+.v-ans b{font-size:1.15rem;color:var(--ink);margin-left:.3em}
+.v-exp{margin:12px 0 0;font-size:.95rem;line-height:1.85}
+.mark{flex:none;width:62px;height:62px;margin:-14px -6px -14px auto;pointer-events:none;mix-blend-mode:multiply}
+.mark path{fill:none;stroke:var(--pen);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.mark.draw path{animation:draw .5s cubic-bezier(.45,.1,.2,1) both}
+
+.actions{flex:none;padding:0 0 14px}
+.ox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ox-btn{appearance:none;border:1px solid var(--line-strong);background:#fff;border-radius:18px;height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:transform .1s,background .15s,border-color .15s;box-shadow:0 1px 0 rgba(20,40,40,.04)}
+.ox-btn:active{transform:scale(.97);background:var(--panel)}
+.ox-btn svg{display:block}
+.ox-btn span{font-size:.78rem;color:var(--muted);letter-spacing:.08em}
+.next{height:84px;font-size:1.1rem}
+.keys{margin:10px 0 0;text-align:center;font-size:.74rem;color:var(--faint);min-height:1.2em}
+.keys kbd{font-family:inherit;font-size:.7rem;padding:1px 6px;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:5px;margin:0 3px 0 10px;color:var(--muted)}
+.keys kbd:first-child{margin-left:0}
+@media (hover:none) and (pointer:coarse){.keys{display:none}}
+
+/* ---------- 結果 ---------- */
+.result{padding:48px 0 32px}
+.result h2{font-family:var(--mincho);font-weight:700;font-size:1.6rem;letter-spacing:.04em;margin:0}
+.score{display:flex;align-items:baseline;gap:14px;margin:22px 0 4px}
+.score-pct{font-family:var(--mincho);font-weight:700;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.score-pct small{font-size:1.3rem;margin-left:2px}
+.score-raw{font-size:.95rem;color:var(--muted)}
+.score-raw b{color:var(--ink);font-weight:700}
+.result .meter{margin-top:14px}
+.by-cat{list-style:none;margin:18px 0 0;padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.by-cat li{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:11px 16px;font-size:.92rem}
+.by-cat li + li{border-top:1px solid var(--line)}
+.by-cat .bc-name{display:flex;align-items:center;gap:8px}
+.by-cat .bc-name::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cat)}
+.by-cat .bc-raw{color:var(--muted);font-variant-numeric:tabular-nums}
+.by-cat .bc-pct{font-weight:700;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.by-cat .low .bc-pct{color:var(--pen)}
+.pass-note{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6}
+.r-actions{margin-top:26px}
+.secondary{appearance:none;width:100%;background:#fff;border:1px solid var(--line-strong);color:var(--ink);font-weight:500;padding:16px;border-radius:16px;cursor:pointer;margin-top:12px}
+.secondary:active{background:var(--panel)}
+.r-list-title{font-size:.85rem;color:var(--muted);margin:36px 2px 10px;font-weight:500;letter-spacing:.06em}
+.ng-list{list-style:none;padding:0;margin:0;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ng-list li{padding:14px 16px}
+.ng-list li + li{border-top:1px solid var(--line)}
+.ng-list .lq{margin:0;font-family:var(--mincho);font-weight:600;font-size:.98rem;line-height:1.75}
+.ng-list .la{margin:8px 0 0;font-size:.88rem;line-height:1.75;color:var(--muted)}
+.ng-list .la b{color:var(--pen);font-size:1rem;margin-right:.5em}
+
+/* 横向きの案内 */
+.rotate{display:none}
+@media (orientation:landscape) and (max-height:500px) and (pointer:coarse){
+  .rotate{display:flex;position:fixed;inset:0;z-index:50;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--muted);font-size:.95rem}
+}
+
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none !important;animation:none !important}
+}
+@media (max-height:640px){
+  .home-head{padding-top:24px}
+  .ox-btn,.next{height:72px}
+  .stmt{font-size:1.16rem}
+}
+</style>
+</head>
+<body data-view="home">
+<div id="app">
+
+  <section id="home" class="view" aria-labelledby="title">
+    <header class="home-head">
+      <h1 id="title">第二種衛生管理者</h1>
+      <p class="sub">
+        <svg width="34" height="18" viewBox="0 0 34 18" aria-hidden="true"><circle cx="8" cy="9" r="6.2" fill="none" stroke="#D33D2E" stroke-width="2"/><path d="M21 3.5l11 11M32 3.5l-11 11" stroke="#1B2324" stroke-width="2" stroke-linecap="round"/></svg>
+        問題集
+      </p>
+    </header>
+
+    <div class="summary">
+      <p class="summary-line"><span id="ov-total">0</span>問中<b id="ov-ok">0</b>問を正解済み</p>
+      <div class="meter" aria-hidden="true"><i class="ok" id="ov-mok"></i><i class="ng" id="ov-mng"></i></div>
+      <ul class="legend">
+        <li style="--sw:var(--accent)">正解済み<b id="lg-ok">0</b></li>
+        <li style="--sw:var(--ng-bar)">不正解<b id="lg-ng">0</b></li>
+        <li style="--sw:var(--line-strong)">未回答<b id="lg-new">0</b></li>
+      </ul>
+    </div>
+
+    <fieldset class="group">
+      <legend>出題範囲</legend>
+      <div class="cat-list" id="cat-list"></div>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend>出題する問題</legend>
+      <div class="seg" id="seg-mode">
+        <label><input type="radio" name="mode" value="all"><span>すべて</span></label>
+        <label><input type="radio" name="mode" value="new"><span>未正解</span></label>
+        <label><input type="radio" name="mode" value="ng"><span>不正解のみ</span></label>
+      </div>
+      <p class="seg-help" id="mode-help"></p>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend>問題数</legend>
+      <div class="seg" id="seg-count">
+        <label><input type="radio" name="count" value="10"><span>10問</span></label>
+        <label><input type="radio" name="count" value="30"><span>30問</span></label>
+        <label><input type="radio" name="count" value="all"><span>全問</span></label>
+      </div>
+    </fieldset>
+
+    <button class="primary start" id="start">はじめる</button>
+    <p class="hint" id="start-hint" aria-live="polite"></p>
+
+    <footer class="home-foot">
+      <p id="save-note">学習記録はこの端末に保存されます</p>
+      <span>
+        <button class="textbtn" id="reset">学習記録をリセット</button>
+        <button class="textbtn danger" id="reset-yes" hidden>リセットする</button>
+        <button class="textbtn" id="reset-no" hidden>やめる</button>
+      </span>
+    </footer>
+  </section>
+
+  <section id="quiz" class="view" hidden aria-label="出題">
+    <div class="quiz-top">
+      <button class="iconbtn" id="quit" aria-label="途中で終える">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <span class="q-label" id="q-label"></span>
+      <span class="q-count" id="q-count"></span>
+    </div>
+    <div class="track" aria-hidden="true"><i id="q-bar"></i></div>
+
+    <div class="stage">
+      <article class="sheet" id="sheet" aria-live="polite">
+        <div class="sheet-meta">
+          <span class="q-no" id="q-no"></span>
+          <span class="tag" id="q-tag"></span>
+          <span class="prev" id="q-prev" hidden></span>
+        </div>
+        <div class="sheet-body" id="sheet-body">
+          <p class="stmt" id="stmt"></p>
+          <div class="verdict" id="verdict" hidden>
+            <div class="v-head"><span class="chip" id="v-chip"></span><span class="v-ans">答え<b id="v-ans"></b></span><svg class="mark" id="mark" viewBox="0 0 120 120" aria-hidden="true" hidden><path id="mark-path" pathLength="1" d=""/></svg></div>
+            <p class="v-exp" id="v-exp"></p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="actions">
+      <div class="ox" id="ox">
+        <button class="ox-btn" id="btn-o" aria-label="○ 正しい">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="3.2"/></svg>
+          <span>正しい</span>
+        </button>
+        <button class="ox-btn" id="btn-x" aria-label="× 誤り">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M8.5 8.5l23 23M31.5 8.5l-23 23" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>
+          <span>誤り</span>
+        </button>
+      </div>
+      <button class="primary next" id="next" hidden>次へ</button>
+      <p class="keys"><kbd>O</kbd>または<kbd>←</kbd>で○<kbd>X</kbd>または<kbd>→</kbd>で×<kbd>Enter</kbd>で次へ</p>
+    </div>
+  </section>
+
+  <section id="result" class="view" hidden aria-labelledby="r-title">
+    <div class="result">
+      <h2 id="r-title">おつかれさまでした</h2>
+      <div class="score">
+        <span class="score-pct" id="r-pct">0<small>%</small></span>
+        <span class="score-raw"><b id="r-ok">0</b> / <span id="r-total">0</span>問 正解</span>
+      </div>
+      <div class="meter" aria-hidden="true"><i class="ok" id="r-mok"></i><i class="ng" id="r-mng"></i></div>
+      <ul class="by-cat" id="r-bycat"></ul>
+      <p class="pass-note">本番の合格基準は、科目ごとの得点が40%以上で、かつ合計が60%以上です。</p>
+      <div class="r-actions">
+        <button class="primary" id="r-retry"></button>
+        <button class="secondary" id="r-home">ホームにもどる</button>
+      </div>
+      <div id="r-list-wrap">
+        <p class="r-list-title">まちがえた問題</p>
+        <ul class="ng-list" id="r-list"></ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="rotate" aria-hidden="true">
+  <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="13" y="5" width="18" height="34" rx="4" stroke="currentColor" stroke-width="2"/><path d="M19 34h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <p>縦向きにしてお使いください</p>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+const CAT = { law:'関係法令', hyg:'労働衛生', phy:'労働生理' };
+const PREFIX = { L:'law', H:'hyg', P:'phy' };
+
+/* [id, 正誤(1=○ 0=×), 問題文, 解説] */
+const RAW = [
+// ---- 関係法令 ----
+['L01',1,'常時50人以上の労働者を使用する事業場では、業種を問わず衛生管理者を選任しなければならない。','衛生管理者の選任義務は常時50人以上。業種は問わない。'],
+['L02',0,'衛生管理者は、選任すべき事由が発生した日から30日以内に選任しなければならない。','正しくは「14日以内」。選任後は遅滞なく、所轄労働基準監督署長に報告する。'],
+['L03',0,'常時300人の労働者を使用する事業場では、衛生管理者を3人以上選任しなければならない。','正しくは「2人以上」。50〜200人は1人、201〜500人は2人、501〜1,000人は3人。'],
+['L04',1,'常時600人の労働者を使用する事業場では、衛生管理者を3人以上選任しなければならない。','501〜1,000人は3人以上。'],
+['L05',1,'常時2,500人の労働者を使用する事業場では、衛生管理者を5人以上選任しなければならない。','2,001〜3,000人は5人以上、3,001人以上は6人以上。'],
+['L06',0,'有害業務のない事業場でも、常時800人の労働者を使用する場合は、衛生管理者のうち少なくとも1人を専任にしなければならない。','専任が必要なのは「常時1,000人を超える」事業場。一定の有害業務に常時30人以上を従事させる場合は500人超。'],
+['L07',1,'衛生管理者を2人以上選任する場合で、その中に労働衛生コンサルタントがいるときは、そのうち1人は事業場に専属でなくてもよい。','衛生管理者は原則として事業場に専属の者を選任する。'],
+['L08',0,'第二種衛生管理者免許を有する者は、製造業の事業場の衛生管理者に選任することができる。','製造業、建設業、運送業、医療業、清掃業などでは、第一種衛生管理者免許などが必要。'],
+['L09',1,'第二種衛生管理者免許を有する者は、金融業や小売業の事業場の衛生管理者に選任することができる。','有害業務との関連が比較的少ない業種では、第二種免許で選任できる。'],
+['L10',0,'衛生管理者は、少なくとも毎月1回作業場等を巡視しなければならない。','正しくは「毎週1回」。毎月1回は産業医の巡視頻度。'],
+['L11',1,'医師、歯科医師、労働衛生コンサルタントは、衛生管理者免許がなくても衛生管理者に選任できる。',''],
+['L12',1,'産業医は、常時50人以上の労働者を使用する事業場で選任しなければならない。','選任すべき事由の発生から14日以内に選任し、遅滞なく所轄労働基準監督署長に報告する。'],
+['L13',0,'有害業務のない事業場で常時800人の労働者を使用する場合は、専属の産業医を選任しなければならない。','専属が必要なのは「常時1,000人以上」の事業場。一定の有害業務に常時500人以上を従事させる場合も専属が必要。'],
+['L14',0,'産業医は、少なくとも毎週1回作業場等を巡視しなければならない。','正しくは「毎月1回」。毎週1回は衛生管理者の巡視頻度。'],
+['L15',1,'産業医は、事業者から所定の情報の提供を受け、事業者の同意を得ているときは、少なくとも2か月に1回の巡視でよい。',''],
+['L16',0,'事業場で事業の実施を統括管理する者であっても、医師であれば産業医に選任することができる。','法人の代表者、事業を営む個人、事業の実施を統括管理する者は、産業医に選任できない。'],
+['L17',1,'事業者は、産業医から勧告を受けたときは、その内容を衛生委員会に報告しなければならない。','勧告の内容と講じた措置の内容は記録し、3年間保存する。'],
+['L18',0,'衛生委員会は、常時100人以上の労働者を使用する事業場に設置義務がある。','正しくは「常時50人以上」。業種を問わない。'],
+['L19',0,'衛生委員会は、3か月に1回以上開催しなければならない。','正しくは「毎月1回以上」。'],
+['L20',1,'衛生委員会の議事で重要なものの記録は、3年間保存しなければならない。','開催の都度、議事の概要を労働者に周知する。'],
+['L21',0,'衛生委員会の議長を除く全委員は、労働組合（または労働者の過半数代表者）の推薦に基づき指名しなければならない。','推薦に基づき指名するのは「議長を除く委員の半数」。'],
+['L22',1,'その事業場の労働者で作業環境測定を実施している作業環境測定士を、衛生委員会の委員に指名することができる。',''],
+['L23',0,'衛生委員会の委員として指名する産業医は、その事業場に専属の者でなければならない。','嘱託の産業医でも委員に指名できる。'],
+['L24',1,'長時間労働による健康障害の防止を図るための対策の樹立に関することは、衛生委員会の付議事項に含まれる。','労働者の精神的健康の保持増進を図るための対策の樹立に関することも付議事項。'],
+['L25',0,'金融業の事業場では、常時300人以上の労働者を使用する場合に総括安全衛生管理者を選任しなければならない。','金融業など「その他の業種」は「常時1,000人以上」。300人以上は製造業や各種商品小売業など。'],
+['L26',1,'総括安全衛生管理者は、事業の実施を統括管理する者をもって充てなければならない。','工場長や支店長など。特別な資格や免許は不要。'],
+['L27',0,'衛生推進者は、常時50人以上100人未満の労働者を使用する事業場で選任しなければならない。','正しくは「常時10人以上50人未満」。'],
+['L28',0,'衛生推進者を選任したときは、遅滞なく所轄労働基準監督署長に報告しなければならない。','報告は不要。氏名を作業場の見やすい箇所に掲示するなどして、労働者に周知する。'],
+['L29',1,'医師による健康診断を受けてから3か月を経過しない者が、その結果を証明する書面を提出したときは、その項目について雇入れ時の健康診断を省略できる。',''],
+['L30',0,'雇入れ時の健康診断の聴力検査は、医師が適当と認める方法で行うことができる。','雇入れ時は1,000Hzと4,000Hzの音で検査し、他の方法に代えることはできない。'],
+['L31',1,'定期健康診断は、1年以内ごとに1回、定期に行わなければならない。',''],
+['L32',0,'深夜業を含む業務に常時従事する労働者の健康診断は、1年以内ごとに1回行えばよい。','正しくは「配置替えの際と、6か月以内ごとに1回」。胸部エックス線検査は1年以内ごとに1回でよい。'],
+['L33',1,'6か月以上海外に派遣する労働者には、派遣前と、帰国して国内の業務に就かせるときに健康診断を行わなければならない。',''],
+['L34',0,'給食従業員の検便は、6か月以内ごとに1回、定期に行わなければならない。','検便は「雇入れの際、またはその業務への配置替えの際」に行う。'],
+['L35',0,'健康診断個人票は、3年間保存しなければならない。','正しくは「5年間」。'],
+['L36',1,'常時50人以上の労働者を使用する事業者は、定期健康診断結果報告書を遅滞なく所轄労働基準監督署長に提出しなければならない。',''],
+['L37',0,'雇入れ時の健康診断を行ったときは、その結果を所轄労働基準監督署長に報告しなければならない。','雇入れ時の健康診断の結果は報告不要。'],
+['L38',0,'健康診断で異常の所見があった労働者について、医師からの意見聴取は、健康診断の実施日から6か月以内に行えばよい。','正しくは「3か月以内」。聴いた意見は健康診断個人票に記載する。'],
+['L39',1,'一般健康診断の結果は、異常の所見の有無にかかわらず、受診したすべての労働者に通知しなければならない。',''],
+['L40',0,'定期健康診断の血糖検査は、医師が必要でないと認めるときは、年齢にかかわらず省略できる。','血液検査や心電図検査を医師の判断で省略できるのは「40歳未満（35歳を除く）」の者。'],
+['L41',1,'時間外・休日労働が1か月80時間を超え、疲労の蓄積が認められる労働者から申出があったときは、医師による面接指導を行わなければならない。','休憩時間を除き、1週40時間を超えて労働させた時間で算定する。'],
+['L42',0,'研究開発業務の従事者は、時間外・休日労働が1か月80時間を超えたら、申出がなくても面接指導を行わなければならない。','申出がなくても必要なのは「100時間を超えた場合」。80時間超で疲労の蓄積があり申出があれば、それも対象。'],
+['L43',1,'事業者は、時間外・休日労働が1か月80時間を超えた労働者に対し、その超えた時間に関する情報を速やかに通知しなければならない。','産業医にも、その労働者の氏名と超えた時間に関する情報を提供する。'],
+['L44',0,'長時間労働者への面接指導の結果の記録は、3年間保存しなければならない。','正しくは「5年間」。'],
+['L45',1,'面接指導の結果に基づく医師からの意見聴取は、面接指導が行われた後、遅滞なく行わなければならない。',''],
+['L46',1,'常時50人以上の労働者を使用する事業者は、1年以内ごとに1回、定期にストレスチェックを行わなければならない。','50人未満の事業場への義務化は2025年の法改正で決まり、施行は公布後3年以内とされている。'],
+['L47',0,'ストレスチェックの実施者になれるのは、医師と保健師に限られる。','所定の研修を修了した歯科医師、看護師、精神保健福祉士、公認心理師もなれる。'],
+['L48',0,'検査を受ける労働者の昇進や異動について直接の権限を持つ管理職でも、ストレスチェックの実施の事務に従事できる。','解雇・昇進・異動に関して直接の権限を持つ監督的地位にある者は、実施の事務に従事できない。'],
+['L49',0,'ストレスチェックの結果は、実施者から事業者に直接通知しなければならない。','結果は実施者から本人に直接通知する。事業者への提供には本人の同意が必要。'],
+['L50',1,'ストレスチェックの項目には、職場における心理的な負担の原因、心身の自覚症状、他の労働者による支援の3つの領域が含まれる。',''],
+['L51',1,'常時50人以上の労働者を使用する事業者は、ストレスチェックの結果等報告書を1年以内ごとに1回、所轄労働基準監督署長に提出しなければならない。',''],
+['L52',0,'ストレスチェック後の面接指導の結果の記録は、3年間保存しなければならない。','正しくは「5年間」。'],
+['L53',0,'事務室の気積は、設備の占める容積と床面から4mを超える空間を除き、労働者1人あたり8㎥以上としなければならない。','正しくは「10㎥以上」。'],
+['L54',1,'事務室で、直接外気に向かって開放できる窓などの面積が常時床面積の1/20以上ない場合は、換気設備を設けなければならない。',''],
+['L55',0,'一般の事務室では、空気中の二酸化炭素の含有率を100万分の1,000以下としなければならない。','一般の事務室は「100万分の5,000以下」。1,000以下は、空気調和設備などで室に供給する空気の基準。'],
+['L56',1,'一般の事務室では、空気中の一酸化炭素の含有率を100万分の50以下としなければならない。','空気調和設備などで室に供給する空気は100万分の10以下。'],
+['L57',1,'空気調和設備で室に供給される空気中の浮遊粉じん量は、0.15mg/㎥以下としなければならない。','ホルムアルデヒドは0.1mg/㎥以下。'],
+['L58',0,'空気調和設備を設けている場合は、室温を17℃以上28℃以下にするよう努めなければならない。','2022年4月の改正で「18℃以上28℃以下」に。相対湿度は40%以上70%以下。'],
+['L59',1,'空気調和設備や機械換気設備がある事務室では、室内の気流を0.5m/s以下にしなければならない。',''],
+['L60',0,'室温が5℃以下の場合は、暖房するなど適当な温度調節の措置を講じなければならない。','正しくは「10℃以下」。'],
+['L61',0,'一般的な事務作業を行う作業面の照度は、150ルクス以上にしなければならない。','正しくは「300ルクス以上」。150ルクス以上は付随的な事務作業（2022年12月施行の基準）。'],
+['L62',1,'照明設備は、6か月以内ごとに1回、定期に点検しなければならない。',''],
+['L63',0,'機械による換気設備は、6か月以内ごとに1回、定期に異常の有無を点検しなければならない。','正しくは「2か月以内ごとに1回」。'],
+['L64',1,'中央管理方式の空気調和設備を設けた事務室では、2か月以内ごとに1回、一酸化炭素と二酸化炭素の含有率、室温、外気温、相対湿度を測定しなければならない。','測定の記録は3年間保存する。'],
+['L65',0,'空気調和設備の冷却塔と加湿装置は、6か月以内ごとに1回、定期に点検しなければならない。','正しくは「使用開始時と、使用開始後1か月以内ごとに1回」。清掃は1年以内ごとに1回。'],
+['L66',1,'大掃除は、6か月以内ごとに1回、定期に統一的に行わなければならない。',''],
+['L67',0,'ねずみ・昆虫等の発生場所や被害の状況についての調査は、1年以内ごとに1回行えばよい。','正しくは「6か月以内ごとに1回、定期に統一的に」。'],
+['L68',1,'事務室で使用する燃焼器具は、毎日、異常の有無を点検しなければならない。',''],
+['L69',0,'常時40人（うち女性25人）の労働者を使用する事業場では、男女別の臥床できる休養室を設けなければならない。','義務となるのは「常時50人以上、または常時女性30人以上」の場合。'],
+['L70',0,'男性用大便所の便房は、同時に就業する男性労働者30人以内ごとに1個以上設けなければならない。','正しくは「60人以内ごとに1個以上」。30人以内ごとに1個以上は男性用小便所。'],
+['L71',1,'女性用便所の便房は、同時に就業する女性労働者20人以内ごとに1個以上設けなければならない。',''],
+['L72',1,'同時に就業する労働者が常時10人以内で、独立個室型の便所を設けたときは、男女別の便所を設けなくてもよい。',''],
+['L73',0,'労働基準法の法定労働時間は、休憩時間を含めて1日8時間、1週40時間である。','休憩時間を「除いて」1日8時間、1週40時間。'],
+['L74',0,'労働時間が8時間を超える場合は、少なくとも45分の休憩時間を与えなければならない。','正しくは「少なくとも1時間」。6時間を超える場合は少なくとも45分。'],
+['L75',1,'時間外・休日労働をさせるには、労使協定（36協定）を締結し、所轄労働基準監督署長に届け出なければならない。',''],
+['L76',1,'雇入れの日から6か月継続勤務し、全労働日の8割以上出勤した労働者には、10労働日の年次有給休暇を与えなければならない。',''],
+['L77',0,'年次有給休暇の請求権の時効は1年である。','正しくは「2年」。'],
+['L78',1,'年10日以上の年次有給休暇が与えられる労働者には、そのうち5日について時季を指定して取得させなければならない。','労働者が自ら取得した日数や計画的付与の日数は、5日から差し引ける。'],
+['L79',0,'週所定労働時間が30時間以上でも、週所定労働日数が4日以下であれば、年次有給休暇は比例付与となる。','比例付与の対象は「週30時間未満」で、かつ「週4日以下（または年216日以下）」の労働者。'],
+['L80',1,'年次有給休暇の出勤率の算定では、育児休業や産前産後休業の期間は出勤したものとみなす。','業務上の負傷・疾病による休業期間、介護休業期間、年次有給休暇の取得日も同じ。'],
+['L81',0,'労使協定を結べば、年次有給休暇のすべての日数を計画的に付与することができる。','計画的付与できるのは「5日を超える部分」。'],
+['L82',1,'満18歳未満の年少者には、原則として午後10時から午前5時までの深夜業をさせてはならない。',''],
+['L83',0,'妊産婦とは、妊娠中の女性と、産後6か月を経過しない女性をいう。','正しくは「産後1年を経過しない女性」。'],
+['L84',0,'産前休業は、出産予定日以前8週間（多胎妊娠は14週間）である。','正しくは「6週間」（多胎妊娠は14週間）。本人の請求が必要。'],
+['L85',1,'産後8週間を経過しない女性は原則として就業させてはならないが、6週間を経過し、本人が請求して医師が支障ないと認めた業務には就かせてもよい。',''],
+['L86',0,'妊産婦が請求した場合でも、変形労働時間制を採用していれば、1日8時間を超えて労働させることができる。','妊産婦が請求したときは、変形労働時間制でも1日・1週の法定労働時間を超えて労働させられない。'],
+['L87',1,'生後満1年に達しない生児を育てる女性は、休憩時間のほか、1日2回それぞれ少なくとも30分の育児時間を請求できる。',''],
+['L88',0,'生理休暇は、1回につき3日以内と法律で定められている。','日数の上限は定められていない。生理日の就業が著しく困難な女性が請求したときに与える。'],
+['L89',1,'1か月単位の変形労働時間制は、労使協定または就業規則その他これに準ずるものにより採用できる。','労使協定による場合は、所轄労働基準監督署長に届け出る。'],
+['L90',0,'フレックスタイム制の清算期間の上限は1か月である。','正しくは「3か月」。1か月を超える場合は労使協定の届出が必要。'],
+['L91',1,'監視・断続的労働に従事する者は、所轄労働基準監督署長の許可を受ければ、労働時間・休憩・休日の規定が適用されない。',''],
+['L92',1,'休業4日以上の労働災害が発生したときは、遅滞なく労働者死傷病報告を所轄労働基準監督署長に提出しなければならない。','休業4日未満の場合は、四半期ごとにまとめて報告する。'],
+['L93',0,'金融業の事業場では、雇入れ時の安全衛生教育の一部の項目を、業種を理由に省略できる。','2024年4月から業種による省略規定は廃止された。十分な知識・技能があると認められる労働者については、その事項を省略できる。'],
+
+// ---- 労働衛生 ----
+['H01',1,'必要換気量は、室内にいる人が1時間に呼出する二酸化炭素量を、室内二酸化炭素基準濃度と外気の二酸化炭素濃度の差で割って求める。','単位は㎥/h。濃度は単位をそろえて計算する。'],
+['H02',0,'必要換気量を算出するときの室内二酸化炭素基準濃度は、通常0.5%とする。','正しくは「0.1%（1,000ppm）」。外気は0.03〜0.04%程度。'],
+['H03',0,'人の呼気中の二酸化炭素濃度は、約16%である。','呼気中の二酸化炭素は「約4%」。約16%は呼気中の酸素濃度。'],
+['H04',1,'必要換気回数は、必要換気量を室の気積で割って求める。','1時間に室内の空気が何回入れ替わるかを表す。'],
+['H05',1,'屋外で日射がある場合のWBGTは、0.7×自然湿球温度＋0.2×黒球温度＋0.1×乾球温度で求める。','日射がない場合は、0.7×自然湿球温度＋0.3×黒球温度。'],
+['H06',0,'WBGT基準値は、暑熱順化者より暑熱非順化者のほうが大きな値に設定されている。','暑熱順化者のほうが大きい。暑さに慣れていない人は、より低い値から注意が必要。'],
+['H07',0,'実効温度は、気温、湿度、気流にふく射熱を加えた総合効果を表す指標である。','実効温度は気温・湿度・気流の3要素で、ふく射熱は考慮されない。'],
+['H08',1,'至適温度は、作業の強度や年齢、性別、衣服などによって異なる。',''],
+['H09',1,'不快指数は、乾球温度と湿球温度から求める。',''],
+['H10',1,'1ルクスは、1カンデラの光源から1m離れた所で、光に直角な面が受ける明るさをいう。','ルクスは照度の単位。'],
+['H11',0,'前方から明かりを取るときは、眼と光源を結ぶ線と視線とがつくる角度を15°以上にする。','正しくは「30°以上」。'],
+['H12',0,'全般照明と局部照明を併用する場合、全般照明の照度は局部照明による照度の1/20以上にする。','正しくは「1/10以上」。明暗の差が大きすぎると眼が疲れやすい。'],
+['H13',1,'部屋の彩色は、目の高さ以下はまぶしさを防ぐ濁色にし、目より上の壁や天井は明るい色にするとよい。',''],
+['H14',0,'情報機器作業では、一連続作業時間が2時間を超えないようにする。','正しくは「1時間を超えない」。次の連続作業までに10〜15分の作業休止、作業中にも1〜2回の小休止をとる。'],
+['H15',1,'情報機器作業では、ディスプレイ画面上の照度を500ルクス以下にする。','書類上やキーボード上は300ルクス以上。'],
+['H16',0,'情報機器作業では、ディスプレイとの視距離をおおむね30cm以内にする。','正しくは「おおむね40cm以上」。画面の上端は眼の高さとほぼ同じか、やや下に。'],
+['H17',1,'情報機器作業の健康診断は、配置前と、その後1年以内ごとに1回行う。',''],
+['H18',0,'腰痛予防のため、満18歳以上の男性が人力のみで取り扱う重量は、体重のおおむね60%以下とする。','正しくは「おおむね40%以下」。女性はさらに男性の60%くらいまで。'],
+['H19',1,'重量物の取扱いなど腰に負担のかかる作業に常時従事する労働者には、配置の際と、その後6か月以内ごとに1回、健康診断を行う。',''],
+['H20',0,'重量物を持ち上げるときは、膝を伸ばしたまま腰をかがめて持ち上げると腰への負担が少ない。','身体を対象物に近づけ、膝を曲げて腰を下ろし、重心を低くして持ち上げる。'],
+['H21',1,'サルモネラ菌、腸炎ビブリオ、カンピロバクターは、感染型食中毒の原因菌である。',''],
+['H22',0,'黄色ブドウ球菌による食中毒は、感染型に分類される。','黄色ブドウ球菌は「毒素型」。ボツリヌス菌も毒素型。'],
+['H23',0,'黄色ブドウ球菌がつくるエンテロトキシンは熱に弱く、十分に加熱すれば毒性はなくなる。','エンテロトキシンは熱に強く、加熱しても毒性が残る。'],
+['H24',1,'ボツリヌス菌は、缶詰や真空パック食品など酸素のない状態で増殖し、神経毒をつくる。','致死率が高い。'],
+['H25',1,'腸炎ビブリオは病原性好塩菌で、海産の魚介類が主な原因となる。',''],
+['H26',0,'サルモネラ菌による食中毒の主な原因食品は、海産の魚介類である。','主な原因は「鶏卵や食肉」。魚介類が主な原因なのは腸炎ビブリオ。'],
+['H27',1,'カンピロバクターは鶏肉などが主な原因で、潜伏期間は2〜7日と比較的長い。',''],
+['H28',0,'ノロウイルスは夏季に多発し、消毒にはアルコールが有効である。','ノロウイルスは「冬季」に多発し、アルコール消毒は効きにくい。次亜塩素酸ナトリウムや十分な加熱が有効。'],
+['H29',1,'ウェルシュ菌は芽胞をつくり熱に強く、カレーやシチューなど大量に作り置きした煮込み料理で食中毒を起こしやすい。',''],
+['H30',0,'腸管出血性大腸菌（O-157など）の潜伏期間は、数時間程度と短い。','潜伏期間は「3〜5日程度」。ベロ毒素をつくり、溶血性尿毒症症候群を起こすことがある。'],
+['H31',1,'セレウス菌は芽胞をつくり熱に強く、嘔吐型と下痢型がある。',''],
+['H32',0,'胸骨圧迫は、深さ約3cm、1分間に60回程度のテンポで行う。','正しくは「深さ約5cm（6cmを超えない）、1分間に100〜120回」。'],
+['H33',1,'胸骨圧迫は、胸骨の下半分を圧迫する。',''],
+['H34',1,'人工呼吸を行う場合は、胸骨圧迫30回と人工呼吸2回を繰り返す。','人工呼吸は1回約1秒かけて、胸の上がりが見える程度に吹き込む。'],
+['H35',0,'普段どおりの呼吸があるか判断に迷うときは、胸骨圧迫を行わずに様子を見る。','判断に迷うときは「直ちに胸骨圧迫を開始」する。呼吸の確認は10秒以内。'],
+['H36',0,'しゃくりあげるような途切れ途切れの呼吸（死戦期呼吸）がある場合は、「呼吸あり」と判断する。','死戦期呼吸は「呼吸なし」とみなし、直ちに胸骨圧迫を開始する。'],
+['H37',1,'AEDが心電図を解析している間は、傷病者に触れてはならない。',''],
+['H38',0,'気道異物の除去では、妊婦や乳児にも腹部突き上げ法を行う。','妊婦や乳児には腹部突き上げ法を行わない。'],
+['H39',1,'一般に、全血液量の約1/3を短時間に失うと生命に危険が及ぶ。','約20%を急速に失うと出血性ショックになる。'],
+['H40',1,'止血法の基本は、出血部位をガーゼなどで直接強く押さえる直接圧迫法である。',''],
+['H41',0,'単純骨折とは、骨が皮膚から露出している骨折をいう。','単純骨折は皮膚の損傷を伴わない骨折。皮膚が破れて骨が露出しているものは複雑骨折（開放骨折）。'],
+['H42',1,'骨折部を副子で固定するときは、骨折部の上下の関節まで固定できる長さのものを使う。',''],
+['H43',0,'熱傷でできた水疱は、早く治すために破って中の液を出すとよい。','水疱は破らない。感染を防ぐため、清潔なガーゼなどで覆う。'],
+['H44',0,'熱傷の深さの分類で、水疱ができるものはI度である。','水疱ができるのは「II度」。I度は赤くなりヒリヒリ痛む。III度は皮膚が白っぽく、または黒く焦げ、痛みを感じにくい。'],
+['H45',1,'化学薬品による熱傷では、直ちに多量の水で洗い流す。',''],
+['H46',0,'熱けいれんは、大量の発汗の後に塩分を補給しすぎることで起こる。','大量の発汗で塩分が失われた状態で、水分だけを補給したことで起こる。'],
+['H47',1,'熱中症のIII度（重症）では、意識障害、けいれん、高体温などがみられる。','I度はめまい・立ちくらみ・こむら返り、II度は頭痛・吐き気・倦怠感。'],
+['H48',1,'脳血管障害は、脳出血やくも膜下出血などの出血性病変と、脳梗塞などの虚血性病変に分けられる。',''],
+['H49',0,'くも膜下出血は、徐々に強くなる軽い頭痛が特徴である。','典型的な症状は「突然の激しい頭痛」。'],
+['H50',0,'脳塞栓症は、脳の血管自体の動脈硬化によって血管が詰まるものである。','それは「脳血栓症」。脳塞栓症は、心臓などでできた血栓が流れてきて詰まるもの。'],
+['H51',0,'虚血性心疾患は、門脈による心筋への血液供給が不足したり途絶えたりして起こる。','正しくは「冠動脈」による血液供給。'],
+['H52',1,'心筋梗塞では、突然激しい胸痛が起こり、30分以上続くこともある。','狭心症の発作は数分程度（長くても15分以内）で治まることが多い。'],
+['H53',0,'日本のメタボリックシンドロームの診断基準では、腹囲が男性90cm以上、女性85cm以上とされている。','逆で「男性85cm以上、女性90cm以上」。加えて血圧・血糖・脂質のうち2つ以上が基準に当てはまる場合。'],
+['H54',1,'BMIは、体重（kg）を身長（m）の2乗で割って求める。','日本では25以上を肥満とする。'],
+['H55',0,'インフルエンザは、主に空気感染で広がる。','インフルエンザは主に「飛沫感染」。空気感染するのは結核、麻しん、水痘など。'],
+['H56',1,'日和見感染とは、免疫力が低下したときに、普段は病原性の弱い病原体によって発症する感染症である。',''],
+['H57',0,'感染していても症状が現れない状態を、日和見感染という。','それは「不顕性感染」。症状がないまま病原体を保有し排出する人をキャリアという。'],
+['H58',1,'労働衛生の3管理とは、作業環境管理、作業管理、健康管理をいう。','労働衛生教育と総括管理を加えて5管理。'],
+['H59',0,'喫煙専用室の出入口では、室外から室内に流入する空気の気流を0.5m/s以上にする。','正しくは「0.2m/s以上」。煙が漏れないよう壁や天井で区画し、屋外に排気する。'],
+['H60',1,'喫煙専用室には、20歳未満の者を立ち入らせてはならない。',''],
+['H61',0,'メンタルヘルスケアの「4つのケア」には、家族によるケアが含まれる。','4つのケアは、セルフケア、ラインによるケア、事業場内産業保健スタッフ等によるケア、事業場外資源によるケア。'],
+['H62',1,'「ラインによるケア」とは、管理監督者が職場環境等の改善や部下の相談への対応を行うことである。',''],
+['H63',1,'「心の健康づくり計画」は、衛生委員会等で十分に調査審議して策定する。',''],
+['H64',0,'労働安全衛生マネジメントシステムでは、外部機関の認証を受けることが要件とされている。','認証は要件ではない。PDCAサイクルを継続的に回し、自主的に安全衛生水準を高める仕組み。'],
+['H65',0,'有所見率は、一定期間に新たに有所見者が発生した割合で、動態データである。','それは「発生率」。有所見率はある時点での有所見者の割合で、静態データ。'],
+['H66',1,'健康診断のスクリーニングレベルを低く設定すると、偽陽性率は高くなり、偽陰性率は低くなる。',''],
+['H67',0,'偽陽性率とは、疾病がある人を異常なし（陰性）と判定する率である。','それは「偽陰性率」。偽陽性率は、疾病がない人を有所見（陽性）と判定する率。'],
+['H68',0,'2つの事象に相関関係が見られれば、そこには因果関係がある。','相関関係があっても、因果関係があるとは限らない。'],
+['H69',1,'正規分布は、平均値と分散（標準偏差）によって形が決まる。','平均値が同じでも、分散が異なれば別の集団と考える。'],
+['H70',1,'γ-GTPは、アルコール性肝障害などで高値になる。',''],
+['H71',0,'HbA1cは、採血した時点の血糖値を反映する検査項目である。','HbA1cは「過去1〜2か月の平均的な血糖値」を反映する。'],
+['H72',0,'HDLコレステロールは悪玉コレステロールとも呼ばれ、高値で動脈硬化の原因となる。','それは「LDL」。HDLは善玉で、低値が問題となる。'],
+['H73',1,'血清トリグリセライド（中性脂肪）は食後に値が上昇するため、空腹時に採血する。',''],
+
+// ---- 労働生理 ----
+['P01',0,'呼吸運動を調節する呼吸中枢は、小脳にある。','呼吸中枢は「延髄」にある。'],
+['P02',0,'呼吸運動は、肺自体が拡張・収縮することによって行われる。','肺自体には運動能力がない。横隔膜や肋間筋などの呼吸筋が胸郭の容積を変えて行う。'],
+['P03',1,'血液中の二酸化炭素分圧が上昇すると、呼吸中枢が刺激されて呼吸が促進される。',''],
+['P04',0,'肺胞内の空気と肺の毛細血管の血液との間で行われるガス交換を、内呼吸という。','それは「外呼吸」。内呼吸は全身の毛細血管の血液と組織細胞との間のガス交換。'],
+['P05',1,'成人の安静時の呼吸数は、1分間に16〜20回程度である。','食事、入浴、発熱などで増加する。'],
+['P06',0,'チェーンストークス呼吸は、肺機能の低下によって呼吸数が増加した状態をいう。','呼吸の停止と深い呼吸を周期的に繰り返す異常呼吸で、呼吸中枢の機能低下（重い心臓病や脳疾患など）でみられる。'],
+['P07',1,'心臓の拍動のリズムは、右心房にある洞結節（洞房結節）でつくられる。','心臓は自律神経がなくても拍動を続ける（自動性）。'],
+['P08',1,'体循環では、血液は左心室から大動脈に入り、全身を巡って大静脈から右心房に戻る。',''],
+['P09',0,'肺循環では、血液は右心室から肺静脈を通って肺に送られる。','右心室から「肺動脈」を通って肺へ送られ、肺静脈から左心房に戻る。'],
+['P10',0,'肺動脈には動脈血が、肺静脈には静脈血が流れている。','逆で、肺動脈には静脈血、肺静脈には動脈血が流れる。'],
+['P11',1,'心筋に酸素や栄養を送っているのは、冠状動脈（冠動脈）である。','大動脈の起始部から出ている。'],
+['P12',0,'心筋は平滑筋に分類され、意思によって動かせない不随意筋である。','心筋は「横紋筋」だが、不随意筋。'],
+['P13',1,'脈拍は、心臓の拍動によって生じる動脈の拍動で、一般に手首の橈骨動脈で触れて測る。',''],
+['P14',0,'血液の容積のうち、血漿が約45%、有形成分が約55%を占める。','逆で、血漿が約55%、有形成分（赤血球・白血球・血小板）が約45%。'],
+['P15',1,'ヘマトクリットとは、血液の容積に対する赤血球の相対的容積をいう。','男性約45%、女性約40%。貧血になると低くなる。'],
+['P16',0,'赤血球の寿命は、約3〜4日である。','赤血球の寿命は「約120日」。'],
+['P17',1,'白血球のうち約60%を占める好中球は、細菌などの異物を貪食する。','リンパ球は約30%。'],
+['P18',0,'Tリンパ球は、抗体を産生する。','抗体を産生するのは「Bリンパ球」。Tリンパ球は異物を認識して直接攻撃する（細胞性免疫）。'],
+['P19',1,'体液性免疫では、抗体が抗原と特異的に結合して、抗原の働きを抑える。','抗体は免疫グロブリンというたんぱく質。'],
+['P20',0,'血液凝固は、血漿中のフィブリンが不溶性のフィブリノーゲンに変化して起こる。','逆で、水溶性の「フィブリノーゲン」が不溶性の「フィブリン」に変化する。'],
+['P21',1,'血液の凝集反応は、赤血球の凝集原と他人の血清中の凝集素との間で起こる。','血液凝固とは別の現象。'],
+['P22',1,'炭水化物はブドウ糖に、たんぱく質はアミノ酸に、脂肪は脂肪酸とモノグリセリドに分解されて吸収される。',''],
+['P23',0,'栄養素の吸収は、主に大腸の絨毛で行われる。','主に「小腸」の絨毛で吸収される。大腸では主に水分を吸収する。'],
+['P24',1,'胃液に含まれるペプシンは、たんぱく質を分解する。',''],
+['P25',0,'膵液には、脂肪を分解する消化酵素は含まれていない。','膵液はトリプシン（たんぱく質）、アミラーゼ（炭水化物）、リパーゼ（脂肪）を含む。'],
+['P26',0,'胆汁には、脂肪を分解する消化酵素が含まれている。','胆汁は消化酵素を含まない。脂肪を乳化させて消化を助ける。'],
+['P27',1,'無機塩やビタミン類は、消化酵素で分解されずにそのまま吸収される。',''],
+['P28',1,'肝臓は、グリコーゲンの合成と分解、胆汁の生成、血液凝固物質やアルブミンの合成、有害物質の解毒などを行う。',''],
+['P29',1,'肝臓では、アミノ酸の分解で生じた毒性の強いアンモニアが尿素に変えられる。',''],
+['P30',0,'ヘモグロビンは肝臓で合成される。','ヘモグロビンは「骨髄」で合成される。'],
+['P31',1,'腎臓のネフロン（腎単位）は、腎小体（糸球体とボウマン嚢）と、それに続く1本の尿細管からなる。',''],
+['P32',0,'糸球体では、血球とたんぱく質も含めた血漿成分がボウマン嚢にこし出される。','血球とたんぱく質はこし出されない。それ以外の成分が原尿になる。'],
+['P33',0,'尿細管では、原尿中のグルコースはほとんど再吸収されずに尿中に排泄される。','健康な人では、グルコースはほぼすべて尿細管で再吸収される。'],
+['P34',1,'尿の約95%は水分で、通常は弱酸性である。',''],
+['P35',0,'血液中の尿素窒素（BUN）は、腎臓の機能が低下すると低値になる。','腎臓の機能が低下すると「高値」になる。'],
+['P36',1,'尿たんぱくが陽性のときは、腎臓や膀胱などの疾患が疑われる。','尿糖が陽性のときは糖尿病などが疑われる。'],
+['P37',1,'中枢神経系は脳と脊髄からなり、末梢神経系は体性神経と自律神経からなる。',''],
+['P38',1,'ニューロン（神経細胞）は、1個の細胞体、1本の軸索、複数の樹状突起からなる。',''],
+['P39',0,'大脳の皮質は神経線維の多い白質で、髄質は神経細胞の細胞体が集まった灰白質である。','逆で、大脳は皮質が灰白質、髄質が白質。脊髄は外側が白質、内側が灰白質。'],
+['P40',0,'小脳は、呼吸や循環の中枢である。','小脳は運動と平衡感覚の調節を担う。呼吸や循環の中枢は延髄。'],
+['P41',1,'自律神経系の最高中枢は、間脳の視床下部にある。',''],
+['P42',0,'交感神経が優位になると、心拍数は減少し、消化管の運動は亢進する。','逆で、心拍数は増加し、消化管の運動は抑制される。'],
+['P43',1,'膝蓋腱反射は、筋の伸張反射の一つである。','反射は、刺激に対して意識とは無関係に起こる反応。'],
+['P44',0,'網膜の錐状体は暗い所で弱い光を感じ、杆状体は明るい所で色を感じる。','逆で、錐状体は明るい所で色を感じ、杆状体は暗い所で弱い光や明暗を感じる。'],
+['P45',0,'近視は、眼軸が短すぎるために、平行光線が網膜の後方で像を結ぶ状態である。','それは「遠視」。近視は眼軸が長すぎて、網膜の前方で像を結ぶ。'],
+['P46',1,'乱視は、角膜が不規則に湾曲しているため、像が正しく結ばれない状態である。',''],
+['P47',0,'暗い所に入ったときの暗順応は、明順応より短い時間で完了する。','暗順応のほうが時間がかかる。'],
+['P48',1,'眼のピント調節は、水晶体の厚さを変えることで行われる。',''],
+['P49',0,'内耳の蝸牛は平衡感覚を、前庭と半規管は聴覚をつかさどる。','逆で、蝸牛は聴覚、前庭（体の傾き）と半規管（回転の方向や速さ）は平衡感覚をつかさどる。'],
+['P50',1,'鼓室は耳管によって咽頭とつながり、内圧が外気圧と等しく保たれている。',''],
+['P51',1,'皮膚感覚のうち、痛覚点の密度は他の感覚点に比べて高い。',''],
+['P52',0,'温度感覚は、一般に温覚のほうが冷覚より鋭敏である。','一般に「冷覚」のほうが温覚より鋭敏。'],
+['P53',1,'嗅覚はわずかな匂いでも感じるほど鋭敏だが、同じ匂いには疲労しやすい。',''],
+['P54',1,'深部感覚は、筋肉や腱などにある受容器が、四肢の位置や運動の状態を感じる感覚である。',''],
+['P55',0,'インスリンは膵臓から分泌され、血糖値を上げる働きをする。','インスリンは血糖値を「下げる」。'],
+['P56',1,'グルカゴンは膵臓から分泌され、血糖値を上げる。',''],
+['P57',0,'アドレナリンは副腎皮質から分泌される。','アドレナリンは「副腎髄質」から分泌され、血糖値の上昇や心拍数の増加を起こす。'],
+['P58',1,'コルチゾールは副腎皮質から分泌され、血糖値を上げる。','ストレスを受けると分泌が増える。'],
+['P59',1,'アルドステロンは副腎皮質から分泌され、体液中の塩類バランスを調節する。',''],
+['P60',0,'パラソルモンは甲状腺から分泌され、血糖値を調節する。','パラソルモンは「副甲状腺」から分泌され、血中のカルシウム量を調節する。'],
+['P61',1,'メラトニンは松果体から分泌され、睡眠を促す。',''],
+['P62',0,'ガストリンは十二指腸から分泌され、胃酸の分泌を抑える。','ガストリンは「胃」から分泌され、胃酸の分泌を「促す」。'],
+['P63',1,'セクレチンは十二指腸から分泌され、消化液の分泌を促す。',''],
+['P64',0,'体温調節中枢は延髄にある。','体温調節中枢は「間脳の視床下部」にある。'],
+['P65',0,'寒冷にさらされると、皮膚の血管が拡張して体表面の血流量が増える。','寒冷時は皮膚の血管が「収縮」して血流量を減らし、放熱を抑える。'],
+['P66',1,'暑熱環境では、皮膚の血管が拡張して血流量が増え、発汗によって放熱が促される。',''],
+['P67',1,'外部環境が変化しても身体内部の状態を一定に保つ仕組みを恒常性（ホメオスタシス）といい、主に自律神経系と内分泌系によって調節される。',''],
+['P68',0,'発汗していない状態では、皮膚からの水分の蒸発は起こらない。','発汗していなくても皮膚や呼気から水分が蒸発している（不感蒸泄）。1日に約850g。'],
+['P69',1,'水1gが蒸発すると約0.58kcalの気化熱が奪われ、体重70kgの人で汗100gが蒸発すると、体温は約1℃下がる。',''],
+['P70',0,'基礎代謝量は、睡眠中に測定した、生命維持に必要な最小限のエネルギー量である。','基礎代謝量は「覚醒・横臥・安静」の状態で測る。'],
+['P71',0,'エネルギー代謝率は、精神的作業や静的な筋作業の強度を表す指標としても用いられる。','エネルギー代謝率は動的な筋作業の強度の指標で、精神的作業や静的な筋作業には適用できない。'],
+['P72',1,'エネルギー代謝率は、作業時の消費エネルギーから安静時の消費エネルギーを引き、基礎代謝量で割って求める。',''],
+['P73',0,'異化とは、摂取した栄養素から生体に必要な物質を合成し、エネルギーを蓄えることをいう。','それは「同化」。異化は体内の物質を分解してエネルギーを得ること。'],
+['P74',1,'筋収縮の直接のエネルギー源は、ATP（アデノシン三リン酸）の分解である。','酸素が不足すると、グリコーゲンが分解されて乳酸がたまる。'],
+['P75',0,'荷物を持ったまま静止して力を出しているときの筋収縮は、等張性収縮である。','長さを変えずに力を出すのは「等尺性収縮」。等張性収縮は長さを変えながら力を出す（物を持ち上げるなど）。'],
+['P76',1,'筋肉が出せる力は、筋肉の断面積に比例する。','筋肉は、収縮しようとする瞬間に最も大きな力を出す。'],
+['P77',0,'強い力を必要とする運動を続けると、筋線維の数が増えて筋力が増強する。','筋線維の数ではなく、個々の筋線維が「太くなる」ことで筋力が増強する。'],
+['P78',1,'レム睡眠中は、眠っていても急速な眼球運動がみられ、夢を見ていることが多い。','ノンレム睡眠は深い眠りで、脳を休ませる。'],
+['P79',0,'睡眠中は交感神経が優位になり、心拍数が増加する。','睡眠中は「副交感神経」が優位になり、心拍数や体温が低下する。'],
+['P80',1,'約1日の周期で繰り返される生物学的リズムをサーカディアンリズムといい、乱れると疲労や睡眠障害の原因になる。',''],
+['P81',1,'就寝直前の過食は、睡眠を妨げる原因になる。',''],
+['P82',1,'ストレスを受けると、副腎皮質ホルモンやカテコールアミンの分泌が亢進する。',''],
+['P83',0,'ストレスは、その程度にかかわらず心身にとって有害である。','適度なストレスは、心身の活動を活性化させる。']
+];
+
+const QS = RAW.map(r => ({ id:r[0], cat:PREFIX[r[0][0]], t:r[1] === 1, s:r[2], e:r[3] || '' }));
+const BY_ID = Object.create(null);
+QS.forEach(q => { BY_ID[q.id] = q; });
+
+const $ = id => document.getElementById(id);
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- PWA（自前でホストしたときだけ有効） ---------- */
+(function setupPWA(){
+  if (window.top !== window.self || !/^https?:$/.test(location.protocol)) return;
+  const add = (rel, href) => { const l = document.createElement('link'); l.rel = rel; l.href = href; document.head.appendChild(l); };
+  add('manifest', 'manifest.webmanifest');
+  add('apple-touch-icon', 'apple-touch-icon.png');
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  }
+})();
+
+/* ---------- 保存 ---------- */
+const LS_PROGRESS = 'eisei2-ox-progress-v1';
+const LS_PREFS = 'eisei2-ox-prefs-v1';
+const local = {
+  get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+function sanitize(p){
+  const out = { q:{}, updatedAt:0 };
+  if (p && typeof p === 'object') {
+    if (p.q && typeof p.q === 'object') {
+      for (const k of Object.keys(p.q)) {
+        const v = p.q[k];
+        if (BY_ID[k] && (v === 1 || v === 2)) out.q[k] = v;
+      }
+    }
+    if (typeof p.updatedAt === 'number') out.updatedAt = p.updatedAt;
+  }
+  return out;
+}
+let progress = sanitize(local.get(LS_PROGRESS));
+let prefs = Object.assign({ cat:'all', mode:'all', count:'10' }, local.get(LS_PREFS) || {});
+if (!['all','law','hyg','phy'].includes(prefs.cat)) prefs.cat = 'all';
+if (!['all','new','ng'].includes(prefs.mode)) prefs.mode = 'all';
+if (!['10','30','all'].includes(prefs.count)) prefs.count = '10';
+const savePrefs = () => local.set(LS_PREFS, prefs);
+
+const statusOf = id => progress.q[id] || 0; // 0 未回答 / 1 正解 / 2 不正解
+function setStatus(id, v){
+  progress.q[id] = v;
+  progress.updatedAt = Date.now();
+  local.set(LS_PROGRESS, progress);
+  schedulePush();
+}
+
+/* claude.ai 上ではアカウントに同期 */
+let dbRef = null, writing = false, dirty = false, timer = null, retries = 0;
+function schedulePush(){
+  if (!dbRef) return;
+  dirty = true;
+  clearTimeout(timer);
+  timer = setTimeout(push, 1200);
+}
+async function push(){
+  if (!dbRef || writing || !dirty) return;
+  writing = true; dirty = false;
+  try {
+    await dbRef.set({ q: Object.assign({}, progress.q), updatedAt: progress.updatedAt });
+    retries = 0;
+  } catch (e) {
+    const code = e && e.code;
+    if ((code === 'unavailable' || code === 'resource_exhausted') && retries < 3) { retries++; dirty = true; }
+    else { dbRef = null; updateSaveNote(); }
+  } finally {
+    writing = false;
+    if (dirty && dbRef) { clearTimeout(timer); timer = setTimeout(push, 2000 + Math.random() * 2000); }
+  }
+}
+async function connect(){
+  if (!window.claude || typeof window.claude.use !== 'function') return;
+  try {
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if (!db || !user) return;
+    const uid = await user.id();
+    if (!uid) return;
+    const ref = db.doc('data/users/' + uid + '/ox');
+    const snap = await ref.get();
+    dbRef = ref;
+    if (snap.exists) {
+      const remote = sanitize(snap.data());
+      if (remote.updatedAt > progress.updatedAt) {
+        progress = remote;
+        local.set(LS_PROGRESS, progress);
+        if (view === 'home') renderHome();
+      } else if (progress.updatedAt > remote.updatedAt) { dirty = true; push(); }
+    } else if (progress.updatedAt > 0) { dirty = true; push(); }
+    updateSaveNote();
+  } catch (e) { /* 端末保存のまま続ける */ }
+}
+function updateSaveNote(){
+  $('save-note').textContent = dbRef
+    ? '学習記録はアカウントに保存され、ほかの端末でも続きから使えます'
+    : '学習記録はこの端末に保存されます';
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && dirty) { clearTimeout(timer); push(); }
+});
+
+/* ---------- 画面切り替え ---------- */
+let view = 'home';
+function show(v){
+  view = v;
+  document.querySelectorAll('.view').forEach(s => { s.hidden = s.id !== v; });
+  document.body.dataset.view = v;
+  window.scrollTo(0, 0);
+}
+
+const inCat = cat => cat === 'all' ? QS : QS.filter(q => q.cat === cat);
+function poolFor(cat, mode){
+  const list = inCat(cat);
+  if (mode === 'new') return list.filter(q => statusOf(q.id) !== 1);
+  if (mode === 'ng') return list.filter(q => statusOf(q.id) === 2);
+  return list;
+}
+function tally(list){
+  let ok = 0, ng = 0;
+  for (const q of list) { const s = statusOf(q.id); if (s === 1) ok++; else if (s === 2) ng++; }
+  return { ok, ng, t:list.length, n:list.length - ok - ng };
+}
+const pct = (x, t) => t ? (x / t * 100) + '%' : '0%';
+const sessionSize = n => prefs.count === 'all' ? n : Math.min(n, Number(prefs.count));
+
+/* ---------- ホーム ---------- */
+const CAT_ROWS = [['all','すべての範囲'],['law',CAT.law],['hyg',CAT.hyg],['phy',CAT.phy]];
+(function buildCats(){
+  const wrap = $('cat-list');
+  for (const [key, label] of CAT_ROWS) {
+    const row = document.createElement('label');
+    row.className = 'cat';
+    row.dataset.cat = key;
+    if (key !== 'all') row.style.setProperty('--cat', 'var(--c-' + key + ')');
+    row.innerHTML =
+      '<input type="radio" name="cat" value="' + key + '">' +
+      '<span class="radio" aria-hidden="true"></span>' +
+      '<span class="cat-name"></span>' +
+      '<span class="cat-count"></span>' +
+      '<span class="meter" aria-hidden="true"><i class="ok"></i><i class="ng"></i></span>';
+    row.querySelector('.cat-name').textContent = label;
+    wrap.appendChild(row);
+  }
+  wrap.addEventListener('change', e => {
+    if (e.target.name === 'cat') { prefs.cat = e.target.value; savePrefs(); renderHome(); }
+  });
+})();
+$('seg-mode').addEventListener('change', e => {
+  if (e.target.name === 'mode') { prefs.mode = e.target.value; savePrefs(); renderHome(); }
+});
+$('seg-count').addEventListener('change', e => {
+  if (e.target.name === 'count') { prefs.count = e.target.value; savePrefs(); renderHome(); }
+});
+
+const MODE_HELP = {
+  all: '選んだ範囲の問題からランダムに出題します。',
+  new: 'まだ正解していない問題（未回答と不正解）から出題します。',
+  ng: '前回まちがえた問題だけを出題します。'
+};
+const MODE_LABEL = { all:'', new:'未正解', ng:'不正解のみ' };
+
+function renderHome(){
+  const all = tally(QS);
+  $('ov-total').textContent = all.t;
+  $('ov-ok').textContent = all.ok;
+  $('ov-mok').style.width = pct(all.ok, all.t);
+  $('ov-mng').style.width = pct(all.ng, all.t);
+  $('lg-ok').textContent = all.ok;
+  $('lg-ng').textContent = all.ng;
+  $('lg-new').textContent = all.n;
+
+  document.querySelectorAll('.cat').forEach(row => {
+    const t = tally(inCat(row.dataset.cat));
+    row.querySelector('input').checked = prefs.cat === row.dataset.cat;
+    row.querySelector('.cat-count').textContent = t.ok + ' / ' + t.t;
+    row.querySelector('.meter .ok').style.width = pct(t.ok, t.t);
+    row.querySelector('.meter .ng').style.width = pct(t.ng, t.t);
+  });
+  document.querySelectorAll('#seg-mode input').forEach(i => { i.checked = i.value === prefs.mode; });
+  document.querySelectorAll('#seg-count input').forEach(i => { i.checked = i.value === prefs.count; });
+  $('mode-help').textContent = MODE_HELP[prefs.mode];
+
+  const pool = poolFor(prefs.cat, prefs.mode).length;
+  const n = sessionSize(pool);
+  const btn = $('start');
+  btn.disabled = n === 0;
+  btn.innerHTML = 'はじめる<small>' + n + '問</small>';
+  let hint = '';
+  if (pool === 0 && prefs.mode === 'ng') hint = '不正解の問題はありません。';
+  else if (pool === 0 && prefs.mode === 'new') hint = 'この範囲はすべて正解済みです。「すべて」を選ぶと復習できます。';
+  $('start-hint').textContent = hint;
+}
+
+$('start').addEventListener('click', () => {
+  const pool = poolFor(prefs.cat, prefs.mode);
+  if (!pool.length) return;
+  const base = prefs.cat === 'all' ? 'すべての範囲' : CAT[prefs.cat];
+  const label = MODE_LABEL[prefs.mode] ? base + '　' + MODE_LABEL[prefs.mode] : base;
+  startSession(shuffle(pool.slice()).slice(0, sessionSize(pool.length)), label);
+});
+
+/* リセット（2段階） */
+let resetTimer = null;
+function resetUI(confirming){
+  $('reset').hidden = confirming;
+  $('reset-yes').hidden = !confirming;
+  $('reset-no').hidden = !confirming;
+}
+$('reset').addEventListener('click', () => {
+  resetUI(true);
+  clearTimeout(resetTimer);
+  resetTimer = setTimeout(() => resetUI(false), 6000);
+  $('reset-no').focus();
+});
+$('reset-no').addEventListener('click', () => { clearTimeout(resetTimer); resetUI(false); $('reset').focus(); });
+$('reset-yes').addEventListener('click', () => {
+  clearTimeout(resetTimer);
+  progress = { q:{}, updatedAt: Date.now() };
+  local.set(LS_PROGRESS, progress);
+  schedulePush();
+  resetUI(false);
+  renderHome();
+  $('start-hint').textContent = '学習記録をリセットしました。';
+});
+
+/* ---------- 出題 ---------- */
+let S = null;
+const sheet = $('sheet');
+const MARK_OK = 'M82 18 C 52 6 14 24 14 60 C 14 96 52 110 81 99 C 107 89 112 54 96 32 C 89 22 78 17 64 15';
+const MARK_NG = 'M18 56 Q 31 70 45 96 Q 66 52 106 14';
+
+function shuffle(arr){
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function startSession(list, label){
+  S = { q:list, i:0, results:[], answered:false, busy:false };
+  $('q-label').textContent = label;
+  show('quiz');
+  renderQ();
+  enter();
+}
+function renderQ(){
+  const q = S.q[S.i], total = S.q.length;
+  S.answered = false;
+  sheet.style.setProperty('--cat', 'var(--c-' + q.cat + ')');
+  $('q-no').textContent = '第' + (S.i + 1) + '問';
+  $('q-tag').textContent = CAT[q.cat];
+  const prev = statusOf(q.id), pv = $('q-prev');
+  pv.hidden = prev === 0;
+  pv.className = 'prev ' + (prev === 2 ? 'ng' : 'ok');
+  pv.textContent = prev === 2 ? '前回不正解' : '前回正解';
+  $('stmt').textContent = q.s;
+  $('verdict').hidden = true;
+  $('mark').setAttribute('hidden', '');
+  $('sheet-body').scrollTop = 0;
+  $('ox').hidden = false;
+  $('next').hidden = true;
+  $('q-count').innerHTML = (S.i + 1) + '<span> / ' + total + '</span>';
+  $('q-bar').style.width = pct(S.i, total);
+}
+function enter(){
+  if (reduceMotion) return;
+  sheet.classList.add('enter');
+  void sheet.offsetWidth;
+  sheet.classList.remove('enter');
+}
+function answer(choice){
+  if (!S || S.answered || S.busy) return;
+  const q = S.q[S.i];
+  const ok = choice === q.t;
+  S.answered = true;
+  S.results.push({ q, ok });
+  setStatus(q.id, ok ? 1 : 2);
+
+  const chip = $('v-chip');
+  chip.className = 'chip ' + (ok ? 'ok' : 'ng');
+  chip.textContent = ok ? '正解' : '不正解';
+  $('v-ans').textContent = q.t ? '○' : '×';
+  $('v-exp').textContent = q.e || (q.t ? 'この記述は正しい。' : 'この記述は誤り。');
+  $('verdict').hidden = false;
+
+  const mark = $('mark');
+  $('mark-path').setAttribute('d', ok ? MARK_OK : MARK_NG);
+  mark.removeAttribute('hidden');
+  mark.classList.remove('draw');
+  void mark.getBoundingClientRect();
+  mark.classList.add('draw');
+
+  $('q-bar').style.width = pct(S.i + 1, S.q.length);
+  $('ox').hidden = true;
+  $('next').hidden = false;
+  $('next').textContent = S.i + 1 >= S.q.length ? '結果を見る' : '次へ';
+  $('next').focus({ preventScroll:true });
+  if (!ok && navigator.vibrate) { try { navigator.vibrate(12); } catch(e){} }
+}
+function next(){
+  if (!S || !S.answered || S.busy) return;
+  if (S.i + 1 >= S.q.length) { finish(); return; }
+  S.busy = true;
+  sheet.classList.add('leave');
+  setTimeout(() => {
+    sheet.classList.remove('leave');
+    S.i++;
+    S.busy = false;
+    renderQ();
+    enter();
+  }, reduceMotion ? 0 : 180);
+}
+function quit(){
+  if (S && S.results.length) finish();
+  else { S = null; show('home'); renderHome(); }
+}
+$('btn-o').addEventListener('click', () => answer(true));
+$('btn-x').addEventListener('click', () => answer(false));
+$('next').addEventListener('click', next);
+$('quit').addEventListener('click', quit);
+
+document.addEventListener('keydown', e => {
+  if (view !== 'quiz' || !S || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  const onButton = e.target && e.target.tagName === 'BUTTON';
+  if (!S.answered && (k === 'o' || k === 'O' || k === '1' || k === 'ArrowLeft')) { e.preventDefault(); answer(true); }
+  else if (!S.answered && (k === 'x' || k === 'X' || k === '2' || k === 'ArrowRight')) { e.preventDefault(); answer(false); }
+  else if (S.answered && (k === 'Enter' || k === ' ' || k === 'ArrowRight') && !onButton) { e.preventDefault(); next(); }
+  else if (k === 'Escape') { e.preventDefault(); quit(); }
+});
+
+/* ---------- 結果 ---------- */
+let lastNg = [];
+function finish(){
+  const res = S.results, total = res.length;
+  const okN = res.filter(r => r.ok).length;
+  lastNg = res.filter(r => !r.ok).map(r => r.q);
+  const complete = total === S.q.length;
+  S = null;
+
+  $('r-title').textContent = complete ? 'おつかれさまでした' : 'ここまでの結果';
+  const p = total ? Math.round(okN / total * 100) : 0;
+  $('r-pct').innerHTML = p + '<small>%</small>';
+  $('r-ok').textContent = okN;
+  $('r-total').textContent = total;
+  $('r-mok').style.width = pct(okN, total);
+  $('r-mng').style.width = pct(total - okN, total);
+
+  const by = {};
+  for (const r of res) { (by[r.q.cat] = by[r.q.cat] || { ok:0, t:0 }).t++; if (r.ok) by[r.q.cat].ok++; }
+  const cats = Object.keys(CAT).filter(c => by[c]);
+  const ul = $('r-bycat');
+  ul.textContent = '';
+  for (const c of cats) {
+    const b = by[c], cp = Math.round(b.ok / b.t * 100);
+    const li = document.createElement('li');
+    li.style.setProperty('--cat', 'var(--c-' + c + ')');
+    if (cp < 40) li.className = 'low';
+    li.innerHTML = '<span class="bc-name"></span><span class="bc-raw"></span><span class="bc-pct"></span>';
+    li.querySelector('.bc-name').textContent = CAT[c];
+    li.querySelector('.bc-raw').textContent = b.ok + ' / ' + b.t;
+    li.querySelector('.bc-pct').textContent = cp + '%';
+    ul.appendChild(li);
+  }
+  ul.hidden = cats.length === 0;
+
+  const retry = $('r-retry');
+  retry.hidden = lastNg.length === 0;
+  retry.textContent = 'まちがえた' + lastNg.length + '問を解き直す';
+
+  const list = $('r-list');
+  list.textContent = '';
+  for (const q of lastNg) {
+    const li = document.createElement('li');
+    const s = document.createElement('p'); s.className = 'lq'; s.textContent = q.s;
+    const a = document.createElement('p'); a.className = 'la';
+    const b = document.createElement('b'); b.textContent = '答え ' + (q.t ? '○' : '×');
+    a.append(b, document.createTextNode(q.e || (q.t ? 'この記述は正しい。' : 'この記述は誤り。')));
+    li.append(s, a);
+    list.appendChild(li);
+  }
+  $('r-list-wrap').hidden = lastNg.length === 0;
+  show('result');
+  (lastNg.length ? retry : $('r-home')).focus({ preventScroll:true });
+}
+$('r-retry').addEventListener('click', () => {
+  if (lastNg.length) startSession(shuffle(lastNg.slice()), 'まちがえた問題の解き直し');
+});
+$('r-home').addEventListener('click', () => { show('home'); renderHome(); });
+
+/* ---------- 起動 ---------- */
+renderHome();
+updateSaveNote();
+connect();
+})();
+</script>
+</body>
+</html>

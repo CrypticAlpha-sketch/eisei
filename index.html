@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,8 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="衛生管理者">
-<meta name="theme-color" content="#EDF0F3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111419" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#EDF0F3" id="themeColor">
+<script>try{var t=localStorage.getItem("eisei2-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <title>第二種衛生管理者 過去問ランダム</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,9 +54,18 @@ button:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--law);out
 mark{background:linear-gradient(transparent 52%,var(--marker) 52%);color:inherit;padding:0 .08em}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 
+/* ---------- theme toggle ---------- */
+.tt{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:12px;color:var(--ink)}
+.tt svg{width:22px;height:22px}
+.tt .sun{display:none} :root[data-theme="dark"] .tt .sun{display:block} :root[data-theme="dark"] .tt .moon{display:none}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){z-index:2}
+.wipe{position:fixed;inset:0;z-index:100;pointer-events:none}
 /* ---------- home ---------- */
 .home{padding-top:20px;padding-bottom:132px}
-.title{padding:14px 2px 18px}
+.title{padding:14px 2px 18px;position:relative}
+.title .tt{position:absolute;top:2px;right:-6px}
+.title h1,.title small{padding-right:44px}
 .title small{display:block;color:var(--ink2);font-size:13px;letter-spacing:.02em}
 .title h1{margin:2px 0 0;font-size:27px;line-height:1.3;font-weight:700;letter-spacing:.01em}
 .title p{margin:8px 0 0;color:var(--ink2);font-size:13.5px}
@@ -607,7 +616,7 @@ function renderHome(){
   const allR=!st.rounds.length;
   const modeBtn=(v,l)=>`<button data-mode="${v}" aria-pressed="${st.mode===v}">${l}</button>`;
   app.innerHTML=`<div class="wrap home">
-    <div class="title"><small>第二種衛生管理者 免許試験</small><h1>公表問題 ランダム出題</h1>
+    <div class="title"><button class="tt" data-theme-toggle aria-label="ライト／ダークを切り替え"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button><small>第二種衛生管理者 免許試験</small><h1>公表問題 ランダム出題</h1>
       <p>${R.length}回分・${Q.length}問（${roundLabel(rounds[rounds.length-1])}〜${roundLabel(rounds[0])}公表）。解説は「見て覚える頻出ノート」から抜粋。</p></div>
     <section class="gauge"><h2>科目別の正答率（各問の最新の解答で計算）</h2>${rows}
       <div class="g-legend"><i></i>足切りライン 40%（各科目4問）</div></section>
@@ -628,6 +637,7 @@ function renderHome(){
 }
 app.addEventListener("click",e=>{
   const t=e.target.closest("button"); if(!t) return;
+  if(t.hasAttribute("data-theme-toggle")){toggleTheme(t);return}
   if(view==="home"){
     const st=store.set;
     if(t.dataset.subj){const s=t.dataset.subj;st.subj[s]=!st.subj[s];if(!st.subj.L&&!st.subj.E&&!st.subj.S)st.subj[s]=true;save();renderHome();return}
@@ -658,7 +668,7 @@ function topBar(){
   return `<div class="top"><div class="in">
     <button class="x" id="close" aria-label="ホームに戻る"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <div class="meta"><b>${Math.min(idx+1,bag.length)}問目 / ${bag.length}問</b>出題範囲からランダム</div>
-    <div class="score">${sess.ok}<span> / ${sess.n} 正解</span></div></div></div>`;
+    <div class="score">${sess.ok}<span> / ${sess.n} 正解</span></div><button class="tt" data-theme-toggle aria-label="ライト／ダークを切り替え"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button></div></div>`;
 }
 function stemHTML(q){
   const [head,...rest]=q.stem.split("\n");
@@ -718,6 +728,31 @@ function renderDone(){
     <div class="bar"><div class="in"><button class="ghost" id="close">ホーム</button><button class="go" id="again">もう一周</button></div></div>`;
   window.scrollTo(0,0);
 }
+const BG={light:"#EDF0F3",dark:"#111419"};
+const curTheme=()=>document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light";
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  const m=document.getElementById("themeColor"); if(m)m.setAttribute("content",BG[t]);
+  try{localStorage.setItem("eisei2-theme",t)}catch(e){}
+}
+function toggleTheme(btn){
+  const next=curTheme()==="dark"?"light":"dark";
+  const r=btn.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
+  const end=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  const clip=[`circle(0px at ${x}px ${y}px)`,`circle(${end}px at ${x}px ${y}px)`];
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){applyTheme(next);return}
+  if(document.startViewTransition){
+    const vt=document.startViewTransition(()=>applyTheme(next));
+    vt.ready.then(()=>document.documentElement.animate({clipPath:clip},{duration:560,easing:"cubic-bezier(.45,0,.2,1)",pseudoElement:"::view-transition-new(root)"})).catch(()=>{});
+    return;
+  }
+  /* 古いSafari向け：新しい背景色の円を広げてから切り替える */
+  const w=document.createElement("div"); w.className="wipe"; w.style.background=BG[next];
+  document.body.appendChild(w);
+  const a=w.animate({clipPath:clip},{duration:460,easing:"cubic-bezier(.45,0,.2,1)",fill:"forwards"});
+  a.onfinish=()=>{applyTheme(next);w.animate({opacity:[1,0]},{duration:180,fill:"forwards"}).onfinish=()=>w.remove()};
+}
+applyTheme(curTheme());
 renderHome();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>

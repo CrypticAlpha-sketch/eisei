@@ -20,8 +20,8 @@
 :root{
   --bg:#EDF0F3; --paper:#FFFFFF; --ink:#1A2230; --ink2:#586274; --ink3:#8C95A4; --rule:#D8DDE4;
   --law:#2457A8; --hyg:#0E7C66; --phy:#7449B0;
-  --marker:#FFE14A; --marker-soft:#FFF4B8; --stamp:#D3352A; --hit:#FFF8D6;
-  --dot:#D3D9E1; --btn:#1A2230; --btn-ink:#FFFFFF;
+  --marker:#FFE14A; --stamp:#D3352A; --hit:#FFF8D6; --sel:#EEF1F6;
+  --dot:#D3D9E1; --btn:#1A2230; --btn-ink:#FFFFFF; --scrim:rgba(20,26,36,.45);
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -31,142 +31,215 @@
   :root:not([data-theme="light"]){
     --bg:#111419; --paper:#1A1F27; --ink:#E8EBF0; --ink2:#A2AABA; --ink3:#6E7787; --rule:#2B323D;
     --law:#79A3EE; --hyg:#45C6A4; --phy:#B497EA;
-    --marker:rgba(255,214,10,.42); --marker-soft:rgba(255,214,10,.16); --stamp:#FF5D4F; --hit:rgba(255,214,10,.10);
-    --dot:#2A313B; --btn:#E8EBF0; --btn-ink:#111419;
+    --marker:rgba(255,214,10,.42); --stamp:#FF5D4F; --hit:rgba(255,214,10,.11); --sel:#232A35;
+    --dot:#2A313B; --btn:#E8EBF0; --btn-ink:#111419; --scrim:rgba(0,0,0,.6);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#111419; --paper:#1A1F27; --ink:#E8EBF0; --ink2:#A2AABA; --ink3:#6E7787; --rule:#2B323D;
   --law:#79A3EE; --hyg:#45C6A4; --phy:#B497EA;
-  --marker:rgba(255,214,10,.42); --marker-soft:rgba(255,214,10,.16); --stamp:#FF5D4F; --hit:rgba(255,214,10,.10);
-  --dot:#2A313B; --btn:#E8EBF0; --btn-ink:#111419;
+  --marker:rgba(255,214,10,.42); --stamp:#FF5D4F; --hit:rgba(255,214,10,.11); --sel:#232A35;
+  --dot:#2A313B; --btn:#E8EBF0; --btn-ink:#111419; --scrim:rgba(0,0,0,.6);
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
   font-family:"BIZ UDPGothic","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",system-ui,sans-serif;
-  font-size:16px;line-height:1.65;-webkit-tap-highlight-color:transparent;font-feature-settings:"palt" 0}
+  font-size:16px;line-height:1.65;-webkit-tap-highlight-color:transparent}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-button:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--law);outline-offset:2px;border-radius:6px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation}
+button:focus-visible{outline:2.5px solid var(--law);outline-offset:2px;border-radius:6px}
 mark{background:linear-gradient(transparent 52%,var(--marker) 52%);color:inherit;padding:0 .08em}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+.wrap{max-width:560px;margin:0 auto;padding-left:16px;padding-right:16px}
+.law{color:var(--law);--sc:var(--law)} .hyg{color:var(--hyg);--sc:var(--hyg)} .phy{color:var(--phy);--sc:var(--phy)}
+.num-t{font-variant-numeric:tabular-nums}
 
-/* ---------- theme toggle ---------- */
+/* theme toggle */
 .tt{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:12px;color:var(--ink)}
 .tt svg{width:22px;height:22px}
 .tt .sun{display:none} :root[data-theme="dark"] .tt .sun{display:block} :root[data-theme="dark"] .tt .moon{display:none}
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
 ::view-transition-new(root){z-index:2}
 .wipe{position:fixed;inset:0;z-index:100;pointer-events:none}
+
 /* ---------- home ---------- */
-.home{padding-top:20px;padding-bottom:132px}
-.title{padding:14px 2px 18px;position:relative}
+.home{padding-top:14px;padding-bottom:128px}
+.title{padding:12px 2px 14px;position:relative}
 .title .tt{position:absolute;top:2px;right:-6px}
-.title h1,.title small{padding-right:44px}
-.title small{display:block;color:var(--ink2);font-size:13px;letter-spacing:.02em}
-.title h1{margin:2px 0 0;font-size:27px;line-height:1.3;font-weight:700;letter-spacing:.01em}
-.title p{margin:8px 0 0;color:var(--ink2);font-size:13.5px}
+.title small{display:block;color:var(--ink2);font-size:13px;padding-right:44px}
+.title h1{margin:2px 0 0;font-size:26px;line-height:1.3;font-weight:700;padding-right:44px}
+.title p{margin:6px 0 0;color:var(--ink2);font-size:13px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--paper);border-radius:13px;padding:4px;margin-bottom:16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:8;box-shadow:0 0 0 6px var(--bg)}
+.tabs button{min-height:42px;border-radius:10px;font-size:15px;color:var(--ink2)}
+.tabs button[aria-selected="true"]{background:var(--btn);color:var(--btn-ink);font-weight:700}
 
-.gauge{background:var(--paper);border-radius:14px;padding:16px 16px 6px;margin-bottom:22px}
-.gauge h2{margin:0 0 4px;font-size:14px;color:var(--ink2);font-weight:700}
-.g-row{display:grid;grid-template-columns:5.2em 1fr 3.4em;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--rule)}
-.g-row:first-of-type{border-top:0}
+.panel{background:var(--paper);border-radius:14px;padding:16px;margin-bottom:18px}
+.panel h2{margin:0 0 6px;font-size:14px;color:var(--ink2);font-weight:700}
+.g-row{display:grid;grid-template-columns:5.2em 1fr 3.2em;align-items:center;gap:10px;padding:9px 0}
+.g-row+.g-row{border-top:1px solid var(--rule)}
 .g-name{font-weight:700;font-size:15px}
-.g-bar{position:relative;height:12px;border-radius:6px;background:var(--bg);overflow:visible}
+.g-bar{position:relative;height:12px;border-radius:6px;background:var(--bg)}
 .g-fill{position:absolute;inset:0 auto 0 0;border-radius:6px;background:currentColor;transition:width .5s ease}
-.g-cut{position:absolute;top:-5px;bottom:-5px;left:40%;width:0;border-left:2px dashed var(--stamp)}
-.g-num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;font-size:15px}
+.g-cut{position:absolute;top:-5px;bottom:-5px;width:0;border-left:2px dashed var(--stamp)}
+.g-num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink)}
 .g-sub{grid-column:2 / 4;margin-top:-6px;font-size:12px;color:var(--ink3)}
-.g-legend{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--ink2);padding:8px 0 10px}
+.g-legend{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--ink2);padding-top:8px}
 .g-legend i{display:inline-block;width:14px;border-top:2px dashed var(--stamp)}
-.law{color:var(--law);--sc:var(--law)} .hyg{color:var(--hyg);--sc:var(--hyg)} .phy{color:var(--phy);--sc:var(--phy)}
+.g-row.tot{color:var(--ink)}
 
-.field{margin-bottom:20px}
+.weak{list-style:none;margin:0;padding:0}
+.weak li{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:9px 0}
+.weak li+li{border-top:1px solid var(--rule)}
+.weak .wt{font-size:15px;font-weight:700;line-height:1.4}
+.weak .ws{font-size:12.5px;color:var(--ink2)}
+.weak .ws b{color:var(--stamp)}
+.mini{min-height:38px;padding:0 14px;border-radius:19px;border:1.5px solid var(--ink);font-size:14px;font-weight:700;white-space:nowrap}
+
+.field{margin-bottom:18px}
 .field h3{margin:0 0 8px;font-size:14px;color:var(--ink2);font-weight:700}
+.field .desc{font-size:12.5px;color:var(--ink2);margin:8px 2px 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:40px;padding:8px 14px;border-radius:20px;background:var(--paper);border:1.5px solid var(--rule);font-size:15px;color:var(--ink2);display:inline-flex;align-items:center;gap:6px}
-.chip[aria-pressed="true"]{border-color:currentColor;font-weight:700}
+.chip[aria-pressed="true"]{border-color:currentColor;font-weight:700;color:var(--ink)}
 .chip.law[aria-pressed="true"]{color:var(--law);background:color-mix(in srgb,var(--law) 9%,var(--paper))}
 .chip.hyg[aria-pressed="true"]{color:var(--hyg);background:color-mix(in srgb,var(--hyg) 9%,var(--paper))}
 .chip.phy[aria-pressed="true"]{color:var(--phy);background:color-mix(in srgb,var(--phy) 9%,var(--paper))}
-.chip.rd[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.chip.md[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
 .chip .ck{width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;display:inline-block;position:relative}
 .chip[aria-pressed="true"] .ck{background:currentColor}
 .chip[aria-pressed="true"] .ck::after{content:"";position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg)}
-.rounds{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.rounds{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
 .rounds::-webkit-scrollbar{display:none}
 .rounds .chip{flex:none;font-size:14px}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper);border-radius:12px;padding:4px;gap:4px;border:1.5px solid var(--rule)}
-.seg button{min-height:42px;border-radius:9px;font-size:14px;color:var(--ink2);line-height:1.25;padding:4px}
-.seg button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);font-weight:700}
-.foot{margin-top:28px;font-size:12px;color:var(--ink3);line-height:1.7}
+.foot{margin-top:24px;font-size:12px;color:var(--ink3);line-height:1.7}
 .foot button{color:var(--stamp);text-decoration:underline;font-size:13px;margin-top:8px;padding:6px 0}
 
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
   background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--rule)}
-.bar .in{max-width:560px;margin:0 auto;display:flex;gap:10px}
-.go{flex:1;min-height:54px;border-radius:14px;background:var(--btn);color:var(--btn-ink);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:10px}
-.go[disabled]{opacity:.35}
+.bar .in,.in{max-width:560px;margin:0 auto;display:flex;gap:8px}
+.go{flex:1;min-height:54px;border-radius:14px;background:var(--btn);color:var(--btn-ink);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .15s,transform .1s}
+.go:active{transform:scale(.985)}
+.go[disabled]{opacity:.3}
 .go .cnt{font-weight:400;font-size:14px;opacity:.8}
-.ghost{min-height:54px;padding:0 18px;border-radius:14px;border:1.5px solid var(--rule);background:var(--paper);font-size:15px;color:var(--ink2)}
+.ghost{min-height:54px;padding:0 14px;border-radius:14px;border:1.5px solid var(--rule);background:var(--paper);font-size:15px;color:var(--ink);white-space:nowrap}
+.ghost[disabled]{opacity:.35}
+.sq{flex:none;width:54px;min-height:54px;border-radius:14px;border:1.5px solid var(--rule);background:var(--paper);display:grid;place-items:center;color:var(--ink2)}
+.sq svg{width:22px;height:22px}
+.sq[aria-pressed="true"]{color:var(--stamp);border-color:var(--stamp);background:color-mix(in srgb,var(--stamp) 8%,var(--paper))}
+.sq[aria-pressed="true"] svg{fill:currentColor}
+
+/* ---------- exam tab ---------- */
+.rule-list{margin:0;padding:0;list-style:none;font-size:15px}
+.rule-list li{padding:7px 0;display:grid;grid-template-columns:5.4em 1fr;gap:8px}
+.rule-list li+li{border-top:1px solid var(--rule)}
+.rule-list b{color:var(--ink2);font-size:13.5px;font-weight:700;padding-top:1px}
+.rec{list-style:none;margin:0;padding:0}
+.rec li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;font-size:14px}
+.rec li+li{border-top:1px solid var(--rule)}
+.rec .pf{font-weight:700;font-size:13px;border:1.5px solid currentColor;border-radius:6px;padding:1px 7px}
+.rec .pf.p{color:var(--stamp)} .rec .pf.f{color:var(--ink3)}
+.rec .sc{color:var(--ink2);font-size:13px}
+.rec .tl{font-weight:700;font-variant-numeric:tabular-nums;font-size:16px}
+
+/* ---------- notes tab ---------- */
+.nt-h{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin:18px 2px 8px}
+.nt-h::before{content:"";width:10px;height:10px;border-radius:2px;background:currentColor}
+.nt{background:var(--paper);border-radius:14px;overflow:hidden;margin-bottom:8px}
+.nt>button{display:grid;grid-template-columns:1fr auto 18px;gap:10px;align-items:center;width:100%;text-align:left;padding:12px 14px;min-height:56px}
+.nt .nn{font-size:15.5px;font-weight:700;line-height:1.4}
+.nt .ns{display:block;font-size:12px;color:var(--ink2);font-weight:400}
+.nt .nr{font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--ink)}
+.nt .nr.low{color:var(--stamp)} .nt .nr.na{color:var(--ink3);font-weight:400}
+.nt .cv{width:9px;height:9px;border:solid var(--ink3);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s;justify-self:center;margin-top:-4px}
+.nt[data-open="1"] .cv{transform:rotate(-135deg);margin-top:4px}
+.nt .body{padding:0 10px 12px}
+.nt .body .nb{margin:0 0 10px;border:1px solid var(--rule)}
 
 /* ---------- quiz ---------- */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg);border-bottom:1px solid var(--rule)}
-.top .in{max-width:560px;margin:0 auto;padding:8px 8px 8px 4px;display:flex;align-items:center;gap:6px}
-.x{width:44px;height:44px;display:grid;place-items:center;border-radius:10px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg)}
+.top .in{padding:6px 4px;align-items:center;gap:4px}
+.x{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:10px}
 .x svg{width:22px;height:22px}
-.top .meta{flex:1;min-width:0;font-size:13px;color:var(--ink2);line-height:1.35}
-.top .meta b{display:block;color:var(--ink);font-size:14px}
-.score{font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;padding:0 10px;white-space:nowrap}
+.top .meta{flex:1;min-width:0;font-size:12.5px;color:var(--ink2);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .meta b{display:block;color:var(--ink);font-size:14.5px}
+.score{font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;padding:0 4px;white-space:nowrap;text-align:right;line-height:1.3}
 .score span{color:var(--ink3);font-weight:400}
+.score .stk{display:block;font-size:11.5px;color:var(--stamp)}
+.timer{font-variant-numeric:tabular-nums;font-size:17px;font-weight:700;padding:0 6px;letter-spacing:.02em}
+.timer.low{color:var(--stamp)}
+.prog{height:3px;background:var(--rule)}
+.prog i{display:block;height:100%;background:var(--ink);transition:width .35s ease}
 
-.quiz{padding-top:16px;padding-bottom:140px}
-.qcard{position:relative;background:var(--paper);border-radius:16px;padding:18px 16px 8px;overflow:hidden}
-.qtag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:10px}
+.quiz{padding-top:14px;padding-bottom:140px}
+.qcard{position:relative;background:var(--paper);border-radius:16px;padding:16px 16px 0;overflow:hidden}
+.qtag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:8px}
 .qtag::before{content:"";width:10px;height:10px;border-radius:2px;background:currentColor}
 .qtag em{font-style:normal;color:var(--ink2);font-weight:400}
-.stem{font-size:17px;font-weight:700;line-height:1.6;margin:0 0 6px;padding-right:4px}
-.stem.done{padding-right:88px}
-.given{margin:10px 0 4px;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:14.5px;line-height:1.65;font-weight:400}
+.stem{font-size:17px;font-weight:700;line-height:1.6;margin:0 0 4px}
+.done .stem{padding-right:86px;min-height:58px}
+.given{margin:10px 0 4px;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:14.5px;line-height:1.65}
 .given div+div{margin-top:4px}
-.choices{list-style:none;margin:10px -16px 0;padding:0}
-.choice{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;width:100%;text-align:left;padding:13px 16px;border-top:1px solid var(--rule);font-size:16px;line-height:1.6;min-height:56px;position:relative}
-.choice:active{background:var(--bg)}
-.bub{position:relative;width:34px;height:24px;border-radius:12px;border:1.5px solid var(--ink3);display:grid;place-items:center;font-size:13px;color:var(--ink2);margin-top:1px;font-variant-numeric:tabular-nums}
-.answered .choice{cursor:default}
-.answered .choice:active{background:transparent}
-.choice.pick .bub{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.choice.right{background:var(--hit)}
-.choice.right .txt{font-weight:700}
-.choice.right .bub::after{content:"";position:absolute;inset:-7px -6px;border:2.5px solid var(--stamp);border-radius:50%;transform:rotate(-8deg)}
-.choice.wrong .bub{background:transparent;border-color:var(--ink3);color:transparent}
-.choice.wrong .txt{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--stamp);text-decoration-thickness:1.5px}
-.choice.wrong .bub::before,.choice.wrong .bub::after{content:"";position:absolute;left:50%;top:50%;width:30px;height:2.5px;background:var(--stamp);border-radius:2px}
-.choice.wrong .bub::before{transform:translate(-50%,-50%) rotate(40deg)}
-.choice.wrong .bub::after{transform:translate(-50%,-50%) rotate(-40deg)}
+.hint{margin:10px 0 0;font-size:12px;color:var(--ink3);display:flex;gap:14px;flex-wrap:wrap}
+.hint span{display:inline-flex;align-items:center;gap:5px}
+.hint i{font-style:normal;display:inline-grid;place-items:center;width:22px;height:16px;border:1.3px solid var(--ink3);border-radius:8px;font-size:10px}
+.hint s{text-decoration-thickness:1.3px}
 
-.stamp{position:absolute;top:14px;right:12px;width:74px;height:74px;border-radius:50%;border:3px solid var(--stamp);color:var(--stamp);
-  display:grid;place-items:center;transform:rotate(-12deg);font-weight:700;font-size:16px;line-height:1.1;text-align:center;pointer-events:none;
-  box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4.5px var(--stamp)}
-.stamp.ng{font-size:14px}
+.rows{list-style:none;margin:10px -16px 0;padding:0}
+.row{display:grid;grid-template-columns:62px 1fr;border-top:1px solid var(--rule);position:relative;transition:background .15s}
+.row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ink);transform:scaleY(0);transition:transform .15s}
+.num{display:grid;justify-items:center;align-content:start;padding-top:16px;min-height:60px}
+.bub{position:relative;width:36px;height:25px;border-radius:13px;border:1.6px solid var(--ink3);display:grid;place-items:center;font-size:13.5px;color:var(--ink2);font-variant-numeric:tabular-nums;transition:background .12s,color .12s,border-color .12s,transform .12s}
+.num:active .bub{transform:scale(.9)}
+.txt{text-align:left;padding:13px 16px 13px 0;font-size:16px;line-height:1.6;min-height:60px}
+.ct{text-decoration:line-through;text-decoration-color:transparent;text-decoration-thickness:1.4px;transition:color .18s,text-decoration-color .18s}
+.row.sel{background:var(--sel)}
+.row.sel::before{transform:scaleY(1)}
+.row.sel .bub{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.row.elim .ct{color:var(--ink3);text-decoration-color:var(--ink2)}
+.done .num,.done .txt{cursor:default}
+.done .row::before{display:none}
+.done .row.sel{background:transparent}
+.done .row.isans{background:var(--hit)}
+.done .row.isans .ct{font-weight:700;color:var(--ink);text-decoration-color:transparent}
+.done .row.isans .bub::after{content:"";position:absolute;inset:-8px -7px;border:2.6px solid var(--stamp);border-radius:50%;transform:rotate(-8deg)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.tg{font-size:12px;line-height:1.5;padding:1px 8px;border-radius:10px;border:1.3px solid var(--rule);color:var(--ink2);white-space:nowrap}
+.tg.a{background:var(--stamp);border-color:var(--stamp);color:#fff;font-weight:700}
+.tg.m{border-color:var(--ink);color:var(--ink);font-weight:700}
+.tg.tx{color:var(--stamp);border-color:color-mix(in srgb,var(--stamp) 45%,transparent)}
+
+.mk{position:absolute;pointer-events:none;color:var(--stamp)}
+.mk path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.mk.hana{top:2px;right:2px;width:96px;height:96px;transform:rotate(-8deg)}
+.mk.hana path{stroke-width:4.2}
+.mk.batsu{top:14px;right:16px;width:62px;height:62px}
+.mk.batsu path{stroke-width:9}
+.stamp{width:104px;height:104px;border-radius:50%;border:3.5px solid var(--stamp);color:var(--stamp);display:grid;place-items:center;transform:rotate(-12deg);font-weight:700;font-size:27px;letter-spacing:.08em;
+  box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5.5px var(--stamp);margin:6px auto 10px}
 @media (prefers-reduced-motion:no-preference){
-  .stamp{animation:press .32s cubic-bezier(.2,.9,.3,1.4) both}
+  .mk.hana .d1{animation:draw .8s cubic-bezier(.45,0,.25,1) both}
+  .mk.batsu .d1{animation:draw .2s ease-out both}
+  .mk.batsu .d2{animation:draw .2s ease-out .2s both}
+  @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  .stamp{animation:press .34s cubic-bezier(.2,.9,.3,1.4) both .15s}
   @keyframes press{0%{opacity:0;transform:rotate(-12deg) scale(1.9)}60%{opacity:1}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
-  .expl{animation:rise .35s ease both .08s}
-  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .expl{animation:rise .35s ease both .1s}
+  .qcard.enter{animation:rise .28s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .sheet,.dlg{animation:up .26s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+  .scrim{animation:fade .2s ease both}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
 }
 
-.expl{margin-top:16px}
+.expl{margin-top:14px}
 .verdict{display:flex;align-items:baseline;gap:10px;padding:0 4px 10px;font-size:15px}
 .verdict b{font-size:18px}
 .verdict .ok{color:var(--stamp)}
-.ans{background:var(--paper);border-radius:14px;padding:14px 16px;margin-bottom:12px;font-size:15px;line-height:1.65}
-.ans .lb{font-size:12.5px;color:var(--ink2);font-weight:700;margin-bottom:2px}
-
-.nb{position:relative;background:var(--paper);border-radius:14px;margin-bottom:12px;overflow:hidden;
+.legend{font-size:12.5px;color:var(--ink2);padding:0 4px 10px;margin-top:-4px}
+.nb{position:relative;background-color:var(--paper);border-radius:14px;margin-bottom:12px;overflow:hidden;
   background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);background-size:14px 14px;background-position:7px 7px}
 .nb header{display:flex;align-items:center;gap:10px;padding:12px 14px 10px;border-bottom:2px solid currentColor;background:var(--paper)}
 .nb .sj{font-size:11.5px;font-weight:700;color:var(--paper);background:var(--sc);border-radius:5px;padding:2px 7px;white-space:nowrap}
@@ -176,8 +249,7 @@ mark{background:linear-gradient(transparent 52%,var(--marker) 52%);color:inherit
 .nb li{padding:6px 0;font-size:14.5px;line-height:1.7;background:var(--paper);box-shadow:0 0 0 4px var(--paper);margin:2px 0;border-radius:2px}
 .nb li+li{border-top:1px dashed var(--rule)}
 .trap{position:relative;margin:0 12px 12px;padding:10px 12px 10px 20px;border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink)}
-.trap::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;border-radius:8px 0 0 8px;
-  background:repeating-linear-gradient(-45deg,#F2C500 0 5px,#1A2230 5px 10px)}
+.trap::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;border-radius:8px 0 0 8px;background:repeating-linear-gradient(-45deg,#F2C500 0 5px,#1A2230 5px 10px)}
 .trap b{font-size:13px}
 .trap ul{padding:2px 0 0;margin:0}
 .trap li{padding:3px 0;border:0 !important;font-size:14px;box-shadow:none}
@@ -185,14 +257,45 @@ mark{background:linear-gradient(transparent 52%,var(--marker) 52%);color:inherit
 .extra{background:var(--paper);border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:14.5px;border:1.5px dashed var(--rule)}
 .extra .lb{font-size:12.5px;color:var(--ink2);font-weight:700}
 
-.empty{background:var(--paper);border-radius:16px;padding:28px 20px;text-align:center}
-.empty h2{margin:0 0 8px;font-size:20px}
-.empty p{margin:0 0 4px;color:var(--ink2)}
-.big{font-size:44px;font-weight:700;font-variant-numeric:tabular-nums;margin:6px 0}
+/* ---------- result ---------- */
+.res{background:var(--paper);border-radius:16px;padding:22px 18px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.res h2{margin:0 0 4px;font-size:15px;color:var(--ink2)}
+.res .big{font-size:52px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
+.res .big small{font-size:20px;color:var(--ink2);font-weight:400}
+.res .fail{font-size:26px;font-weight:700;margin:8px 0 6px}
+.res p{margin:4px 0 0;color:var(--ink2);font-size:14px}
+.res .why{color:var(--stamp);font-weight:700}
+.res .mk.hana{position:static;display:block;margin:0 auto 4px;width:120px;height:120px}
+.ms-g{text-align:left;margin-top:14px}
+.ms-g .mh{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:700;margin-bottom:6px}
+.ms-g .mh span{color:var(--ink);font-variant-numeric:tabular-nums}
+.ms-g .mh span.ng{color:var(--stamp)}
+.ms{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.ms button{position:relative;aspect-ratio:1/1.05;border-radius:9px;border:1.6px solid var(--ink3);font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums;display:grid;place-items:center;min-width:0}
+.ms button.f{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.ms button.cur{outline:2.5px solid var(--stamp);outline-offset:1.5px}
+.ms button.fl::after{content:"";position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--stamp);border:2px solid var(--paper)}
+.ms button.ok{background:var(--sc);border-color:var(--sc)}
+.ms button.ok b{color:var(--paper);font-weight:400}
+.ms button.ng{border-color:var(--stamp);color:var(--stamp)}
+.ms button.ng::before{content:"";position:absolute;left:15%;right:15%;top:50%;height:1.6px;background:var(--stamp);transform:rotate(-38deg)}
+
+/* ---------- modal ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;background:var(--paper);border-radius:20px 20px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow:auto}
+.sheet h3{margin:0 0 2px;font-size:17px}
+.sheet .sub{margin:0;color:var(--ink2);font-size:13px}
+.sheet .in{margin-top:16px}
+.dlg{position:fixed;left:16px;right:16px;top:50%;margin-top:-90px;z-index:41;background:var(--paper);border-radius:18px;padding:20px 18px 16px;max-width:420px;margin-left:auto;margin-right:auto}
+.dlg h3{margin:0 0 6px;font-size:17px}
+.dlg p{margin:0 0 16px;color:var(--ink2);font-size:14.5px}
+.dlg .go.danger{background:var(--stamp);color:#fff}
+.dlg .go,.dlg .ghost{min-height:48px;font-size:15.5px}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="modal"></div>
 <script>
 const R=[];
 R.push({id:"2021-10",label:"2021年10月公表",q:[
@@ -574,160 +677,367 @@ S_suimin:{t:"睡眠",p:23,l:["ノンレム睡眠：深い眠り・入眠直後�
 };
 
 
+/* ================= data ================= */
 const SUBJ={L:{name:"関係法令",c:"law"},E:{name:"労働衛生",c:"hyg"},S:{name:"労働生理",c:"phy"}};
+const SK=["L","E","S"];
 const subjOf=n=>n<=10?"L":n<=20?"E":"S";
+function kindOf(h){
+  if(h.includes("\n")||/近似値|最も近い|日数は|人数は|業種は/.test(h)) return null;
+  if(/男女差がない/.test(h)) return {ans:"o",o:"男女差なし",x:"男女差あり"};
+  if(/違反しているものは/.test(h)) return {ans:"x",o:"違反なし",x:"違反"};
+  if(/違反していないものは/.test(h)) return {ans:"o",o:"違反なし",x:"違反"};
+  if(/誤っているものは/.test(h)) return {ans:"x",o:"正しい記述",x:"誤りの記述"};
+  if(/正しいものは/.test(h)) return {ans:"o",o:"正しい記述",x:"誤りの記述"};
+  if(/適切でないものは/.test(h)) return {ans:"x",o:"適切",x:"不適切"};
+  if(/適切なものは/.test(h)) return {ans:"o",o:"適切",x:"不適切"};
+  if(/定められていないものは/.test(h)) return {ans:"x",o:"定めあり",x:"定めなし"};
+  if(/該当しないものは|とされていないものは/.test(h)) return {ans:"x",o:"該当する",x:"該当しない"};
+  return null;
+}
 const Q=[];
 R.sort((a,b)=>a.id<b.id?1:-1);
-R.forEach(r=>r.q.forEach(a=>Q.push({id:r.id+"-"+a[0],round:r.id,label:r.label,n:a[0],stem:a[1],ch:a[2],ans:a[3],tags:a[4].split(" "),x:a[5]||"",s:subjOf(a[0])})));
+R.forEach(r=>r.q.forEach(a=>Q.push({id:r.id+"-"+a[0],round:r.id,label:r.label,n:a[0],stem:a[1],ch:a[2],ans:a[3],tags:a[4].split(" "),x:a[5]||"",s:subjOf(a[0]),kind:kindOf(a[1])})));
 const QBY=Object.fromEntries(Q.map(q=>[q.id,q]));
+const ROUNDS=[...new Set(Q.map(q=>q.round))];
+const TAGQ={}; Q.forEach(q=>q.tags.forEach(t=>(TAGQ[t]=TAGQ[t]||[]).push(q)));
+const TAGS=Object.keys(N).filter(t=>TAGQ[t]);
+const LIMIT=180*60;
 
+/* ================= store ================= */
 const KEY="eisei2-randomquiz-v1";
-let store={hist:{},set:{subj:{L:true,E:true,S:true},rounds:[],mode:"all"}};
-try{const raw=localStorage.getItem(KEY);if(raw){const s=JSON.parse(raw);if(s&&s.hist)store.hist=s.hist;if(s&&s.set)store.set=Object.assign(store.set,s.set);}}catch(e){}
+let store={hist:{},set:{subj:{L:true,E:true,S:true},rounds:[],mode:"smart",order:"random"},marks:{},exams:[],exam:null};
+try{const raw=localStorage.getItem(KEY);if(raw){const s=JSON.parse(raw);if(s&&typeof s==="object"){
+  if(s.hist)store.hist=s.hist; if(s.set)Object.assign(store.set,s.set); if(s.marks)store.marks=s.marks;
+  if(Array.isArray(s.exams))store.exams=s.exams; if(s.exam&&Array.isArray(s.exam.ids)&&s.exam.ids.every(id=>QBY[id]))store.exam=s.exam;}}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+function record(q,ok){const h=store.hist[q.id]||{c:0,w:0,last:null}; if(ok)h.c++;else h.w++; h.last=ok?1:0; h.t=Date.now(); store.hist[q.id]=h}
 
-const app=document.getElementById("app");
+/* ================= utils ================= */
+const app=document.getElementById("app"), modalEl=document.getElementById("modal");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt=s=>esc(s).replace(/\[\[(.+?)\]\]/g,"<mark>$1</mark>");
-const KW=/(誤っているもの|正しいもの|適切でないもの|適切なもの|違反しているもの|違反していないもの|該当しないもの|定められていないもの|義務でない業種|義務となる業種|誤っているものの組合せ|正しいものの組合せ|最も近い値|最も近いもの|最大の人数|最大人数|男女差がない)/;
+const KW=/(誤っているものの組合せ|正しいものの組合せ|誤っているもの|正しいもの|適切でないもの|適切なもの|違反しているもの|違反していないもの|該当しないもの|該当するものの組合せ|定められていないもの|とされていないもの|義務でない業種|義務となる業種|最も近い値|最も近いもの|最大の人数|最大人数|男女差がない)/;
 const roundLabel=id=>{const [y,m]=id.split("-");return y+"年"+(+m)+"月"};
+const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function smartOrder(list){
+  const now=Date.now();
+  return list.map(q=>{const h=store.hist[q.id]; let w=3;
+    if(h){ if(h.last===0)w=6; else{const days=(now-(h.t||0))/864e5; w=h.c>=2?0.4:0.9; if(days>7)w*=2} }
+    return [Math.pow(Math.random(),1/w),q]}).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
+}
+const fmtT=s=>{s=Math.max(0,s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),c=s%60;return h+":"+String(m).padStart(2,"0")+":"+String(c).padStart(2,"0")};
+const fmtMin=s=>{const m=Math.round(s/60);return m>=60?Math.floor(m/60)+"時間"+(m%60)+"分":m+"分"};
+const fmtDate=t=>{const d=new Date(t);return (d.getMonth()+1)+"/"+d.getDate()+" "+d.getHours()+":"+String(d.getMinutes()).padStart(2,"0")};
+function statsOf(qs){let done=0,ok=0;qs.forEach(q=>{const h=store.hist[q.id];if(h){done++;if(h.last===1)ok++}});return {total:qs.length,done,ok,rate:done?Math.round(ok/done*100):null}}
+function todayCount(){const d=new Date();d.setHours(0,0,0,0);const t0=d.getTime();let n=0;for(const k in store.hist)if((store.hist[k].t||0)>=t0)n++;return n}
 
+/* hanamaru path */
+const HANA=(()=>{let p=[];const turns=2.55,end=Math.PI*2*turns;
+  for(let t=0;t<=end+.001;t+=.16){const r=2.5+t*2.42;p.push((50+r*Math.cos(t-1.3)).toFixed(1)+" "+(50+r*Math.sin(t-1.3)).toFixed(1))}
+  let d="M"+p.join("L");const Rr=2.5+end*2.42,n=9,a0=end-1.3;
+  for(let i=0;i<n;i++){const a1=a0+i*2*Math.PI/n,a2=a1+2*Math.PI/n,cm=a1+Math.PI/n;
+    d+="Q"+(50+(Rr+19)*Math.cos(cm)).toFixed(1)+" "+(50+(Rr+19)*Math.sin(cm)).toFixed(1)+" "+(50+Rr*Math.cos(a2)).toFixed(1)+" "+(50+Rr*Math.sin(a2)).toFixed(1)}
+  return d})();
+const hanaSVG=`<svg class="mk hana" viewBox="-14 -14 128 128" aria-hidden="true"><path class="d1" pathLength="1" d="${HANA}"/></svg>`;
+const batsuSVG=`<svg class="mk batsu" viewBox="0 0 100 100" aria-hidden="true"><path class="d1" pathLength="1" d="M20 16C38 40 60 62 82 86"/><path class="d2" pathLength="1" d="M82 14C62 40 40 60 16 86"/></svg>`;
+const IC={
+  x:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`,
+  back:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>`,
+  flag:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4.5-6 4.5z"/></svg>`,
+  tt:`<button class="tt" data-act="theme" aria-label="ライト／ダークを切り替え"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button>`
+};
+
+/* ================= state ================= */
+let view="home", tab="practice", openTag=null;
+let P=null, X=null, RES=null, V=0, tick=null, entering=false;
+
+function render(){
+  if(view==="home")renderHome(); else if(view==="quiz")renderQuiz(); else if(view==="done")renderDone();
+  else if(view==="exam")renderExam(); else if(view==="result")renderResult(); else if(view==="review")renderReview();
+}
+function go(v){view=v;entering=true;render();entering=false;window.scrollTo(0,0)}
+
+/* ================= home ================= */
+const MODES=[["smart","おまかせ","間違えた問題と未回答を多めに、覚えた問題は少なめに出します。"],["all","完全ランダム","条件に合う問題を均等に出します。"],["new","未回答","まだ解いていない問題だけを出します。"],["wrong","間違えた問題","最後の解答が不正解だった問題だけを出します。"],["mark","付箋","付箋を付けた問題だけを出します。"]];
 function pool(){
   const st=store.set, rs=st.rounds.length?new Set(st.rounds):null;
   return Q.filter(q=>st.subj[q.s]&&(!rs||rs.has(q.round))&&(
-    st.mode==="all"?true: st.mode==="new"?!store.hist[q.id]: (store.hist[q.id]&&store.hist[q.id].last===0)));
+    st.mode==="new"?!store.hist[q.id]: st.mode==="wrong"?(store.hist[q.id]&&store.hist[q.id].last===0): st.mode==="mark"?!!store.marks[q.id]:true));
 }
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-
-/* ---------- home ---------- */
-function statsFor(s){
-  const qs=Q.filter(q=>q.s===s); let done=0,ok=0;
-  qs.forEach(q=>{const h=store.hist[q.id];if(h){done++;if(h.last===1)ok++}});
-  return {total:qs.length,done,ok,rate:done?Math.round(ok/done*100):null};
+function gaugeRow(name,cls,t,cut){
+  return `<div class="g-row ${cls}"><span class="g-name">${name}</span>
+    <span class="g-bar" role="img" aria-label="${name} 正答率 ${t.rate==null?"未回答":t.rate+"%"}"><span class="g-fill" style="width:${t.rate||0}%"></span><span class="g-cut" style="left:${cut}%"></span></span>
+    <span class="g-num">${t.rate==null?"—":t.rate+"%"}</span><span class="g-sub">${t.done}/${t.total}問 解答済み</span></div>`;
+}
+function weakTopics(){
+  return TAGS.map(t=>({t,s:statsOf(TAGQ[t])})).filter(o=>o.s.done>=2&&o.s.rate<=60).sort((a,b)=>a.s.rate-b.s.rate||b.s.done-a.s.done).slice(0,3);
+}
+function practiceTab(){
+  const st=store.set, p=pool(), allR=!st.rounds.length, weak=weakTopics();
+  const md=MODES.find(m=>m[0]===st.mode)||MODES[0];
+  const main=`
+    <section class="panel"><h2>科目別の正答率（各問の最新の解答）</h2>
+      ${SK.map(s=>gaugeRow(SUBJ[s].name,SUBJ[s].c,statsOf(Q.filter(q=>q.s===s)),40)).join("")}
+      ${gaugeRow("合計","tot",statsOf(Q),60)}
+      <div class="g-legend"><i></i>科目は40%（4問）、合計は60%（18問）が合格ライン</div></section>
+    ${weak.length?`<section class="panel"><h2>苦手なテーマ</h2><ul class="weak">${weak.map(o=>`<li><div><div class="wt">${esc(N[o.t].t)}</div><div class="ws"><span class="${SUBJ[o.t[0]].c}">${SUBJ[o.t[0]].name}</span>　正答率 <b>${o.s.rate}%</b>（${o.s.ok}/${o.s.done}問）</div></div><button class="mini" data-act="topic" data-tag="${o.t}">解く</button></li>`).join("")}</ul></section>`:""}
+    <section class="field"><h3>科目</h3><div class="chips">
+      ${SK.map(s=>`<button class="chip ${SUBJ[s].c}" data-act="subj" data-v="${s}" aria-pressed="${!!st.subj[s]}"><span class="ck"></span>${SUBJ[s].name}</button>`).join("")}</div></section>
+    <section class="field"><h3>公表回</h3><div class="rounds">
+      <button class="chip md" data-act="round" data-v="*" aria-pressed="${allR}">すべての回</button>
+      ${ROUNDS.map(r=>`<button class="chip md" data-act="round" data-v="${r}" aria-pressed="${!allR&&st.rounds.includes(r)}">${roundLabel(r)}</button>`).join("")}</div></section>
+    <section class="field"><h3>出し方</h3><div class="chips">
+      ${MODES.map(m=>`<button class="chip md" data-act="mode" data-v="${m[0]}" aria-pressed="${st.mode===m[0]}">${m[1]}</button>`).join("")}</div>
+      <p class="desc">${st.order==="seq"&&(st.mode==="smart"||st.mode==="all")?"条件に合う問題をすべて出します。":md[2]}</p></section>
+    <section class="field"><h3>出題順</h3><div class="chips">
+      <button class="chip md" data-act="order" data-v="random" aria-pressed="${st.order!=="seq"}">ランダム</button>
+      <button class="chip md" data-act="order" data-v="seq" aria-pressed="${st.order==="seq"}">問題順</button></div>
+      <p class="desc">${st.order==="seq"?"新しい公表回から、問1→問30の順に出します。公表回を1つ選べば、その回を通しで解けます。":"選んだ条件の中から順不同で出します。"}</p></section>
+    <div class="foot">問題：安全衛生技術試験協会の公表問題（1eisei.com 掲載分）を要約して収録。図を使う問題と、法改正で答えが変わった問題（雇入れ時教育）は除いています。正解は資格合格実践会の解答に基づきます。解説は「見て覚える頻出ノート」からの抜粋です。<br>
+      <button data-act="reset">解答記録を消す</button></div>`;
+  const bar=`<div class="bar"><div class="in"><button class="go" data-act="start" ${p.length?"":"disabled"}>出題を始める<span class="cnt">${p.length}問</span></button></div></div>`;
+  return {main,bar};
+}
+function examTab(){
+  const ex=store.exams, cur=store.exam;
+  const main=`
+    <section class="panel"><h2>本番と同じ形式の模擬試験</h2>
+      <ul class="rule-list">
+        <li><b>問題数</b><span>関係法令・労働衛生・労働生理から各10問、計30問をランダムに選びます</span></li>
+        <li><b>制限時間</b><span>3時間（画面を閉じている間は止まります）</span></li>
+        <li><b>合格基準</b><span>各科目4問以上、かつ合計18問以上</span></li>
+        <li><b>進め方</b><span>解答中は正誤を表示しません。最後にまとめて採点し、全問の解説を見られます</span></li>
+      </ul></section>
+    ${ex.length?`<section class="panel"><h2>これまでの模試</h2><ul class="rec">${ex.map(e=>`<li><span class="pf ${e.pass?"p":"f"}">${e.pass?"合格":"不合格"}</span>
+        <span><span class="tl">${e.total} / 30</span>　<span class="sc">法令${e.L}・衛生${e.E}・生理${e.S}</span></span><span class="sc">${fmtDate(e.t)}</span></li>`).join("")}</ul></section>`:""}`;
+  const bar=`<div class="bar"><div class="in">${cur?`<button class="ghost" data-act="x-new">新しく始める</button><button class="go" data-act="x-resume">続きから<span class="cnt">残り ${fmtT(cur.left)}</span></button>`:`<button class="go" data-act="x-new">模擬試験を始める<span class="cnt">30問・3時間</span></button>`}</div></div>`;
+  return {main,bar};
+}
+function notesTab(){
+  let main="";
+  SK.forEach(s=>{
+    main+=`<div class="nt-h ${SUBJ[s].c}">${SUBJ[s].name}</div>`;
+    TAGS.filter(t=>t[0]===s).forEach(t=>{const b=N[t],st=statsOf(TAGQ[t]),open=openTag===t;
+      main+=`<div class="nt" data-open="${open?1:0}" id="nt-${t}"><button data-act="note" data-tag="${t}" aria-expanded="${open}">
+        <span class="nn">${esc(b.t)}<span class="ns">ノート p.${b.p}　${st.total}問中 ${st.done}問 解答済み</span></span>
+        <span class="nr ${st.rate==null?"na":st.rate<=60?"low":""}">${st.rate==null?"未回答":st.rate+"%"}</span><span class="cv"></span></button>
+        ${open?`<div class="body">${noteBlock(t)}<div class="in"><button class="go" data-act="topic" data-tag="${t}" style="min-height:48px;font-size:15.5px">このテーマを解く<span class="cnt">${st.total}問</span></button></div></div>`:""}</div>`;
+    });
+  });
+  return {main,bar:""};
 }
 function renderHome(){
-  const st=store.set, p=pool();
-  const rows=["L","E","S"].map(s=>{const t=statsFor(s),c=SUBJ[s].c;
-    return `<div class="g-row ${c}"><span class="g-name">${SUBJ[s].name}</span>
-      <span class="g-bar" role="img" aria-label="${SUBJ[s].name} 正答率 ${t.rate==null?"未回答":t.rate+"%"}"><span class="g-fill" style="width:${t.rate||0}%"></span><span class="g-cut"></span></span>
-      <span class="g-num" style="color:var(--ink)">${t.rate==null?"—":t.rate+"%"}</span>
-      <span class="g-sub">${t.done}/${t.total}問 解答済み</span></div>`}).join("");
-  const rounds=[...new Set(Q.map(q=>q.round))];
-  const allR=!st.rounds.length;
-  const modeBtn=(v,l)=>`<button data-mode="${v}" aria-pressed="${st.mode===v}">${l}</button>`;
+  const b=tab==="practice"?practiceTab():tab==="exam"?examTab():notesTab(), tc=todayCount();
+  const tb=(v,l)=>`<button role="tab" data-act="tab" data-v="${v}" aria-selected="${tab===v}">${l}</button>`;
   app.innerHTML=`<div class="wrap home">
-    <div class="title"><button class="tt" data-theme-toggle aria-label="ライト／ダークを切り替え"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button><small>第二種衛生管理者 免許試験</small><h1>公表問題 ランダム出題</h1>
-      <p>${R.length}回分・${Q.length}問（${roundLabel(rounds[rounds.length-1])}〜${roundLabel(rounds[0])}公表）。解説は「見て覚える頻出ノート」から抜粋。</p></div>
-    <section class="gauge"><h2>科目別の正答率（各問の最新の解答で計算）</h2>${rows}
-      <div class="g-legend"><i></i>足切りライン 40%（各科目4問）</div></section>
-    <section class="field"><h3>科目</h3><div class="chips">
-      ${["L","E","S"].map(s=>`<button class="chip ${SUBJ[s].c}" data-subj="${s}" aria-pressed="${!!st.subj[s]}"><span class="ck"></span>${SUBJ[s].name}</button>`).join("")}
-    </div></section>
-    <section class="field"><h3>公表回</h3><div class="rounds">
-      <button class="chip rd" data-round="*" aria-pressed="${allR}">すべての回</button>
-      ${rounds.map(r=>`<button class="chip rd" data-round="${r}" aria-pressed="${!allR&&st.rounds.includes(r)}">${roundLabel(r)}</button>`).join("")}
-    </div></section>
-    <section class="field"><h3>出し方</h3><div class="seg">
-      ${modeBtn("all","すべて")}${modeBtn("new","未回答だけ")}${modeBtn("wrong","間違えた<br>問題だけ")}
-    </div></section>
-    <div class="foot">問題：安全衛生技術試験協会の公表問題（1eisei.com 掲載分）を要約して収録。図を使う問題と、法改正で答えが変わった問題（雇入れ時教育）は除いています。正解は資格合格実践会の解答に基づきます。<br>
-      <button id="reset">解答記録を消す</button></div>
-  </div>
-  <div class="bar"><div class="in"><button class="go" id="start" ${p.length?"":"disabled"}>ランダムに解く<span class="cnt">${p.length}問</span></button></div></div>`;
+    <div class="title">${IC.tt}<small>第二種衛生管理者 免許試験</small><h1>公表問題 ランダム出題</h1>
+      <p>${R.length}回分・${Q.length}問（${roundLabel(ROUNDS[ROUNDS.length-1])}〜${roundLabel(ROUNDS[0])}公表）${tc?` <span style="white-space:nowrap">今日 ${tc}問 解答</span>`:""}</p></div>
+    <nav class="tabs" role="tablist">${tb("practice","出題")}${tb("exam","模擬試験")}${tb("notes","ノート")}</nav>
+    ${b.main}</div>${b.bar}`;
 }
-app.addEventListener("click",e=>{
-  const t=e.target.closest("button"); if(!t) return;
-  if(t.hasAttribute("data-theme-toggle")){toggleTheme(t);return}
-  if(view==="home"){
-    const st=store.set;
-    if(t.dataset.subj){const s=t.dataset.subj;st.subj[s]=!st.subj[s];if(!st.subj.L&&!st.subj.E&&!st.subj.S)st.subj[s]=true;save();renderHome();return}
-    if(t.dataset.round){const r=t.dataset.round;
-      if(r==="*")st.rounds=[]; else{const i=st.rounds.indexOf(r);if(i>=0)st.rounds.splice(i,1);else st.rounds.push(r)}
-      save();renderHome();return}
-    if(t.dataset.mode){st.mode=t.dataset.mode;save();renderHome();return}
-    if(t.id==="start"){startQuiz();return}
-    if(t.id==="reset"){if(confirm("すべての解答記録を消します。よろしいですか？")){store.hist={};save();renderHome()}return}
-  }else{
-    if(t.id==="close"){goHome();return}
-    if(t.dataset.c&&!cur.done){answer(+t.dataset.c);return}
-    if(t.id==="next"){nextQ();return}
-    if(t.id==="again"){startQuiz();return}
-  }
-});
 
-/* ---------- quiz ---------- */
-let view="home", bag=[], idx=0, cur=null, sess={n:0,ok:0};
-function goHome(){view="home";renderHome();window.scrollTo(0,0)}
-function startQuiz(){
-  bag=shuffle(pool()); idx=0; sess={n:0,ok:0};
-  if(!bag.length){goHome();return}
-  view="quiz"; showQ();
-}
-function nextQ(){idx++; if(idx>=bag.length){renderDone();return} showQ()}
-function topBar(){
-  return `<div class="top"><div class="in">
-    <button class="x" id="close" aria-label="ホームに戻る"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="meta"><b>${Math.min(idx+1,bag.length)}問目 / ${bag.length}問</b>出題範囲からランダム</div>
-    <div class="score">${sess.ok}<span> / ${sess.n} 正解</span></div><button class="tt" data-theme-toggle aria-label="ライト／ダークを切り替え"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button></div></div>`;
-}
+/* ================= question card ================= */
 function stemHTML(q){
   const [head,...rest]=q.stem.split("\n");
-  const h=esc(head).replace(KW,"<mark>$1</mark>");
-  return `<p class="stem${cur&&cur.done?" done":""}">${h}</p>${rest.length?`<div class="given">${rest.map(l=>`<div>${esc(l)}</div>`).join("")}</div>`:""}`;
+  return `<p class="stem">${esc(head).replace(KW,"<mark>$1</mark>")}</p>${rest.length?`<div class="given">${rest.map(l=>`<div>${esc(l)}</div>`).join("")}</div>`:""}`;
 }
-function showQ(){
-  const q=bag[idx]; cur={q,done:false,pick:0};
-  renderQ(); window.scrollTo(0,0);
-}
-function renderQ(){
-  const q=cur.q, sj=SUBJ[q.s];
-  const ch=q.ch.map((c,i)=>{const k=i+1;let cls="choice";
-    if(cur.done){if(k===q.ans)cls+=" right";if(k===cur.pick&&k!==q.ans)cls+=" wrong pick";if(k===cur.pick&&k===q.ans)cls+=" pick"}
-    return `<li><button class="${cls}" data-c="${k}" ${cur.done?'aria-disabled="true"':""}><span class="bub">${k}</span><span class="txt">${esc(c)}</span></button></li>`}).join("");
-  let stamp="", expl="";
-  if(cur.done){
-    const ok=cur.pick===q.ans;
-    stamp=`<div class="stamp ${ok?"":"ng"}" aria-hidden="true">${ok?"正解":"不正解"}</div>`;
-    const blocks=q.tags.map(noteBlock).join("");
-    expl=`<div class="expl" id="expl">
-      <div class="verdict"><b class="${ok?"ok":""}">${ok?"正解です":"不正解"}</b><span>正解は（${q.ans}）</span></div>
-      <div class="ans"><div class="lb">正解の選択肢（${q.ans}）</div>${esc(q.ch[q.ans-1])}</div>
-      ${blocks}
-      ${q.x?`<div class="extra"><div class="lb">補足（ノート外）</div>${esc(q.x)}</div>`:""}
-    </div>`;
-  }
-  app.innerHTML=`${topBar()}<div class="wrap quiz">
-    <article class="qcard ${cur.done?"answered":""}" aria-live="polite">
-      <div class="qtag ${sj.c}">${sj.name}<em>${q.label}　問${q.n}</em></div>
-      ${stemHTML(q)}${stamp}
-      <ol class="choices">${ch}</ol>
-    </article>${expl}</div>
-    ${cur.done?`<div class="bar"><div class="in"><button class="go" id="next">${idx+1<bag.length?"次の問題":"結果を見る"}</button></div></div>`:""}`;
+function cardHTML(q,st,o){
+  o=o||{}; const sj=SUBJ[q.s], k=q.kind, done=!!st.done;
+  const rows=q.ch.map((c,i)=>{const n=i+1, el=st.elim.includes(n), sel=st.pick===n, isA=n===q.ans;
+    let cls="row"+(el?" elim":"")+(sel?" sel":""), tags="";
+    if(done){
+      if(isA){cls+=" isans";tags+=`<span class="tg a">正解</span>`}
+      if(sel)tags+=`<span class="tg m">あなたの解答</span>`;
+      if(isA&&el)tags+=`<span class="tg">消していた</span>`;
+      if(k){const t=isA?k.ans:(k.ans==="o"?"x":"o");tags+=`<span class="tg ${t==="x"?"tx":""}">${t==="o"?"○":"✕"} ${k[t]}</span>`}
+    }
+    return `<li class="${cls}" data-n="${n}">
+      <button class="num" data-act="pick" data-n="${n}" aria-label="${n}番を解答にする" aria-pressed="${sel}"><span class="bub">${n}</span></button>
+      <button class="txt" data-act="elim" data-n="${n}" aria-pressed="${el}"><span class="ct">${esc(c)}</span>${tags?`<span class="tags">${tags}</span>`:""}</button></li>`}).join("");
+  let mk="";
+  if(done&&!o.nomark) mk=st.pick===q.ans?hanaSVG:batsuSVG;
+  return `<article class="qcard${done?" done":""}${entering?" enter":""}">
+    <div class="qtag ${sj.c}">${sj.name}<em>${o.no?`問${o.no}　`:""}${q.label}${o.no?"":"　問"+q.n}</em></div>
+    ${stemHTML(q)}${mk}
+    ${done?"":`<p class="hint"><span><i>1</i>番号をタップで解答</span><span><s>文をタップ</s>で消去線</span></p>`}
+    <ol class="rows">${rows}</ol></article>`;
 }
 function noteBlock(id){
   const b=N[id]; if(!b) return "";
-  const c=SUBJ[id[0]].c;
-  return `<section class="nb ${c}"><header><span class="sj">${SUBJ[id[0]].name}</span><h4>${esc(b.t)}</h4><span class="pg">ノート p.${b.p}</span></header>
+  return `<section class="nb ${SUBJ[id[0]].c}"><header><span class="sj">${SUBJ[id[0]].name}</span><h4>${esc(b.t)}</h4><span class="pg">ノート p.${b.p}</span></header>
     <ul>${b.l.map(l=>`<li>${fmt(l)}</li>`).join("")}</ul>
     ${b.h?`<div class="trap"><b>ひっかけ</b><ul>${b.h.map(l=>`<li>${fmt(l)}</li>`).join("")}</ul></div>`:""}</section>`;
 }
-function answer(k){
-  const q=cur.q; cur.done=true; cur.pick=k;
-  const ok=k===q.ans; sess.n++; if(ok)sess.ok++;
-  const h=store.hist[q.id]||{c:0,w:0,last:null}; if(ok)h.c++;else h.w++; h.last=ok?1:0; h.t=Date.now();
-  store.hist[q.id]=h; save();
-  const y=window.scrollY; renderQ(); window.scrollTo(0,y);
+function explHTML(q,st){
+  const ok=st.pick===q.ans, k=q.kind;
+  return `<div class="expl" id="expl">
+    <div class="verdict"><b class="${ok?"ok":""}">${ok?"正解":st.pick?"不正解":"未解答"}</b><span>正解は（${q.ans}）</span></div>
+    ${k?`<div class="legend">各選択肢の ○ は「${k.o}」、✕ は「${k.x}」です。</div>`:""}
+    ${q.tags.map(noteBlock).join("")}
+    ${q.x?`<div class="extra"><div class="lb">補足（ノート外）</div>${esc(q.x)}</div>`:""}</div>`;
+}
+function topBar(o){
+  return `<div class="top"><div class="in">
+    <button class="x" data-act="${o.close}" aria-label="${o.closeLabel||"閉じる"}">${o.back?IC.back:IC.x}</button>
+    <div class="meta"><b>${o.title}</b>${o.sub||""}</div>${o.right||""}${IC.tt}</div>
+    <div class="prog"><i style="width:${Math.round((o.prog||0)*100)}%"></i></div></div>`;
+}
+function markBtn(id){return `<button class="sq" data-act="mark" aria-pressed="${!!store.marks[id]}" aria-label="付箋を付ける">${IC.flag}</button>`}
+function curSt(){return view==="quiz"?P.st:view==="exam"?X.st[X.i]:null}
+function syncRows(st){
+  document.querySelectorAll(".row").forEach(li=>{const n=+li.dataset.n, s=st.pick===n, e=st.elim.includes(n);
+    li.classList.toggle("sel",s); li.classList.toggle("elim",e);
+    li.querySelector(".num").setAttribute("aria-pressed",s); li.querySelector(".txt").setAttribute("aria-pressed",e)});
+  const g=document.getElementById("grade"); if(g)g.disabled=!st.pick;
+  const c=document.getElementById("xcount"); if(c&&X)c.textContent=X.st.filter(s=>s.pick).length+"/30";
+}
+
+/* ================= practice ================= */
+function startQuiz(o){
+  o=o||{}; let list,title;
+  if(o.tag){list=smartOrder(TAGQ[o.tag]);title="テーマ："+N[o.tag].t}
+  else{const p=pool(), m=store.set.mode; const seq=store.set.order==="seq", nm=(MODES.find(x=>x[0]===m)||MODES[0])[1]; list=seq?p:(m==="smart"?smartOrder(p):shuffle(p)); title=seq?(m==="smart"||m==="all"?"問題順":nm+"・問題順"):nm}
+  if(!list.length)return;
+  P={bag:list,i:0,title,tag:o.tag||null,sess:{n:0,ok:0,streak:0},st:{pick:0,elim:[],done:false}};
+  go("quiz");
+}
+function renderQuiz(){
+  const q=P.bag[P.i], st=P.st, s=P.sess;
+  const right=`<div class="score">${s.ok}<span> / ${s.n} 正解</span>${s.streak>=3?`<span class="stk">${s.streak}問連続</span>`:""}</div>`;
+  const bar=st.done
+    ?`<div class="bar"><div class="in">${markBtn(q.id)}<button class="go" data-act="next">${P.i+1<P.bag.length?"次の問題":"結果を見る"}</button></div></div>`
+    :`<div class="bar"><div class="in">${markBtn(q.id)}<button class="ghost" data-act="giveup">わからない</button><button class="go" id="grade" data-act="grade" ${st.pick?"":"disabled"}>解答する</button></div></div>`;
+  app.innerHTML=topBar({close:"home",closeLabel:"ホームに戻る",title:`${P.i+1}問目 / ${P.bag.length}問`,sub:esc(P.title),right,prog:(P.i+(st.done?1:0))/P.bag.length})
+    +`<div class="wrap quiz">${cardHTML(q,st)}${st.done?explHTML(q,st):""}</div>`+bar;
+}
+function grade(giveup){
+  const q=P.bag[P.i], st=P.st; if(st.done)return; if(giveup)st.pick=0; else if(!st.pick)return;
+  st.done=true; const ok=st.pick===q.ans; P.sess.n++; if(ok){P.sess.ok++;P.sess.streak++}else P.sess.streak=0;
+  record(q,ok); save();
+  const y=window.scrollY; renderQuiz(); window.scrollTo(0,y);
   const ex=document.getElementById("expl");
-  if(ex){const r=ex.getBoundingClientRect(); if(r.top>window.innerHeight-140) window.scrollBy({top:r.top-window.innerHeight+200,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}
+  if(ex){const r=ex.getBoundingClientRect(); if(r.top>window.innerHeight-150) window.scrollBy({top:r.top-window.innerHeight+210,behavior:reduced()?"auto":"smooth"})}
 }
+function nextQ(){P.i++; if(P.i>=P.bag.length){go("done");return} P.st={pick:0,elim:[],done:false}; go("quiz")}
 function renderDone(){
-  const rate=sess.n?Math.round(sess.ok/sess.n*100):0;
-  app.innerHTML=`${topBar()}<div class="wrap quiz"><div class="empty">
-    <h2>出題範囲をひと通り解きました</h2>
-    <div class="big">${sess.ok} / ${sess.n}</div><p>正答率 ${rate}%（合格の目安は60%以上）</p></div></div>
-    <div class="bar"><div class="in"><button class="ghost" id="close">ホーム</button><button class="go" id="again">もう一周</button></div></div>`;
-  window.scrollTo(0,0);
+  const s=P.sess, rate=s.n?Math.round(s.ok/s.n*100):0;
+  app.innerHTML=topBar({close:"home",closeLabel:"ホームに戻る",title:"おつかれさまでした",sub:esc(P.title),prog:1})+`<div class="wrap quiz"><div class="res">
+    ${rate>=60?hanaSVG:""}<h2>この範囲をひと通り解きました</h2>
+    <div class="big">${s.ok}<small> / ${s.n}</small></div><p>正答率 ${rate}%（合格の目安は60%以上）</p></div></div>
+    <div class="bar"><div class="in"><button class="ghost" data-act="home">ホーム</button><button class="go" data-act="again">もう一周</button></div></div>`;
 }
+
+/* ================= exam ================= */
+function newExam(){
+  let ids=[]; SK.forEach(s=>{ids=ids.concat(shuffle(Q.filter(q=>q.s===s)).slice(0,10).map(q=>q.id))});
+  store.exam={ids,st:ids.map(()=>({pick:0,elim:[],flag:false})),i:0,left:LIMIT}; save(); resumeExam();
+}
+function resumeExam(){X=store.exam; if(!X)return; go("exam"); startTick()}
+function startTick(){stopTick(); tick=setInterval(()=>{
+  if(view!=="exam"||!X||document.hidden)return; X.left--;
+  const el=document.getElementById("timer"); if(el){el.textContent=fmtT(X.left);el.classList.toggle("low",X.left<600)}
+  if(X.left%15===0)save(); if(X.left<=0)finishExam(true)},1000)}
+function stopTick(){if(tick){clearInterval(tick);tick=null}}
+function renderExam(){
+  const q=QBY[X.ids[X.i]], st=X.st[X.i], n=X.st.filter(s=>s.pick).length, last=X.i===29;
+  app.innerHTML=topBar({close:"x-quit",closeLabel:"模擬試験を中断",title:`模擬試験　問${X.i+1} / 30`,sub:SUBJ[q.s].name,
+      right:`<div class="timer${X.left<600?" low":""}" id="timer" aria-label="残り時間">${fmtT(X.left)}</div>`,prog:n/30})
+    +`<div class="wrap quiz">${cardHTML(q,st,{no:X.i+1})}</div>
+    <div class="bar"><div class="in"><button class="sq" data-act="x-flag" aria-pressed="${!!st.flag}" aria-label="あとで見直す印を付ける">${IC.flag}</button>
+      <button class="ghost" data-act="x-prev" ${X.i?"":"disabled"}>前へ</button>
+      <button class="ghost" data-act="x-sheet">一覧 <span class="num-t" id="xcount">${n}/30</span></button>
+      <button class="go" data-act="${last?"x-sheet":"x-next"}">${last?"採点へ":"次へ"}</button></div></div>`;
+}
+function sheetHTML(){
+  const un=X.st.filter(s=>!s.pick).length;
+  const g=SK.map((s,gi)=>`<div class="ms-g"><div class="mh ${SUBJ[s].c}">${SUBJ[s].name}</div><div class="ms">${
+    Array.from({length:10},(_,j)=>{const i=gi*10+j,st=X.st[i];return `<button data-act="x-jump" data-i="${i}" class="${st.pick?"f":""}${st.flag?" fl":""}${i===X.i?" cur":""}" aria-label="問${i+1}${st.pick?" 解答済み":" 未解答"}${st.flag?" 見直し印あり":""}">${i+1}</button>`}).join("")}</div></div>`).join("");
+  return `<div class="scrim" data-act="m-close"></div><div class="sheet" role="dialog" aria-label="マークシート">
+    <h3>マークシート</h3><p class="sub">${un?`未解答 ${un}問。`:"全問解答済み。"}番号をタップでその問題へ移動します。赤い点は「あとで見直す」印です。</p>${g}
+    <div class="in"><button class="ghost" data-act="m-close">戻る</button><button class="go" data-act="x-finish">採点する</button></div></div>`;
+}
+function finishExam(timeout){
+  stopTick(); closeModal();
+  const ok=X.ids.map((id,i)=>{const q=QBY[id],r=X.st[i].pick===q.ans;record(q,r);return r});
+  const sc={L:0,E:0,S:0}; X.ids.forEach((id,i)=>{if(ok[i])sc[QBY[id].s]++});
+  const total=sc.L+sc.E+sc.S, pass=sc.L>=4&&sc.E>=4&&sc.S>=4&&total>=18;
+  RES={ids:X.ids,st:X.st.map(s=>({pick:s.pick,elim:s.elim,done:true})),ok,sc,total,pass,used:LIMIT-X.left,timeout:!!timeout};
+  store.exams.unshift({t:Date.now(),L:sc.L,E:sc.E,S:sc.S,total,pass,used:RES.used}); store.exams=store.exams.slice(0,20);
+  store.exam=null; X=null; save(); go("result");
+}
+function renderResult(){
+  const r=RES, why=[]; SK.forEach(s=>{if(r.sc[s]<4)why.push(SUBJ[s].name+"が4問未満")}); if(r.total<18)why.push("合計が18問未満");
+  const g=SK.map((s,gi)=>`<div class="ms-g"><div class="mh ${SUBJ[s].c}">${SUBJ[s].name}<span class="${r.sc[s]<4?"ng":""}">${r.sc[s]} / 10</span></div><div class="ms ${SUBJ[s].c}">${
+    Array.from({length:10},(_,j)=>{const i=gi*10+j;return `<button data-act="r-open" data-i="${i}" class="${r.ok[i]?"ok":"ng"}" aria-label="問${i+1} ${r.ok[i]?"正解":"不正解"}"><b>${i+1}</b></button>`}).join("")}</div></div>`).join("");
+  app.innerHTML=topBar({close:"home",closeLabel:"ホームに戻る",title:"模擬試験の結果",sub:r.timeout?"時間切れで採点しました":"所要時間 "+fmtMin(r.used),prog:1})
+    +`<div class="wrap quiz"><div class="res">
+      ${r.pass?`<div class="stamp" role="img" aria-label="合格">合格</div>`:`<div class="fail">不合格</div>`}
+      <div class="big">${r.total}<small> / 30</small></div>
+      ${r.pass?`<p>各科目4問以上・合計18問以上を満たしました。</p>`:`<p class="why">${why.join("、")}</p>`}
+      ${g}<p style="margin-top:14px;font-size:12.5px">マスをタップすると、その問題の解説を開きます。</p></div></div>
+    <div class="bar"><div class="in"><button class="ghost" data-act="home">ホーム</button><button class="go" data-act="r-open" data-i="${Math.max(0,r.ok.indexOf(false))}">${r.ok.includes(false)?"間違えた問題から解説を見る":"解説を見る"}</button></div></div>`;
+}
+function renderReview(){
+  const r=RES, q=QBY[r.ids[V]], st=r.st[V];
+  app.innerHTML=topBar({close:"r-back",back:true,closeLabel:"結果に戻る",title:`解説　問${V+1} / 30`,sub:r.ok[V]?"正解":st.pick?"不正解":"未解答",prog:(V+1)/30})
+    +`<div class="wrap quiz">${cardHTML(q,st,{no:V+1})}${explHTML(q,st)}</div>
+    <div class="bar"><div class="in">${markBtn(q.id)}<button class="ghost" data-act="v-prev" ${V?"":"disabled"}>前へ</button><button class="go" data-act="${V<29?"v-next":"r-back"}">${V<29?"次へ":"結果に戻る"}</button></div></div>`;
+}
+
+/* ================= modal ================= */
+let onOk=null;
+function closeModal(){modalEl.innerHTML="";onOk=null}
+function ask(o,cb){onOk=cb;
+  modalEl.innerHTML=`<div class="scrim" data-act="m-close"></div><div class="dlg" role="alertdialog" aria-label="${esc(o.title)}"><h3>${esc(o.title)}</h3><p>${esc(o.body||"")}</p>
+    <div class="in"><button class="ghost" data-act="m-close" style="flex:1">${o.cancel||"やめる"}</button><button class="go${o.danger?" danger":""}" data-act="m-ok">${esc(o.ok)}</button></div></div>`}
+
+/* ================= events ================= */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]"); if(!t||t.disabled) return;
+  const a=t.dataset.act, st=store.set;
+  switch(a){
+    case "theme": toggleTheme(t); break;
+    case "tab": tab=t.dataset.v; renderHome(); window.scrollTo(0,0); break;
+    case "subj": {const s=t.dataset.v; st.subj[s]=!st.subj[s]; if(!SK.some(k=>st.subj[k]))st.subj[s]=true; save(); renderHome(); break}
+    case "round": {const r=t.dataset.v, sc=document.querySelector(".rounds"), x=sc?sc.scrollLeft:0;
+      if(r==="*")st.rounds=[]; else{const i=st.rounds.indexOf(r); if(i>=0)st.rounds.splice(i,1); else st.rounds.push(r)}
+      save(); renderHome(); const s2=document.querySelector(".rounds"); if(s2)s2.scrollLeft=x; break}
+    case "mode": st.mode=t.dataset.v; save(); renderHome(); break;
+    case "order": st.order=t.dataset.v; save(); renderHome(); break;
+    case "start": startQuiz(); break;
+    case "topic": startQuiz({tag:t.dataset.tag}); break;
+    case "note": {const g=t.dataset.tag; openTag=openTag===g?null:g; renderHome(); const el=document.getElementById("nt-"+g); if(el&&openTag){const r=el.getBoundingClientRect(); if(r.top<70||r.top>innerHeight*0.6)window.scrollBy({top:r.top-72,behavior:reduced()?"auto":"smooth"})} break}
+    case "reset": ask({title:"解答記録を消しますか？",body:"正答率、付箋、模試の記録がすべて消えます。元には戻せません。",ok:"消す",danger:true},()=>{store.hist={};store.marks={};store.exams=[];store.exam=null;save();renderHome()}); break;
+    case "home": stopTick(); go("home"); break;
+    case "pick": {const s=curSt(); if(!s||s.done)break; const n=+t.dataset.n; if(s.pick===n)s.pick=0; else{s.pick=n; const i=s.elim.indexOf(n); if(i>=0)s.elim.splice(i,1)} syncRows(s); if(view==="exam")save(); break}
+    case "elim": {const s=curSt(); if(!s||s.done)break; const n=+t.dataset.n, i=s.elim.indexOf(n); if(i>=0)s.elim.splice(i,1); else{s.elim.push(n); if(s.pick===n)s.pick=0} syncRows(s); if(view==="exam")save(); break}
+    case "grade": grade(false); break;
+    case "giveup": grade(true); break;
+    case "next": nextQ(); break;
+    case "again": startQuiz(P&&P.tag?{tag:P.tag}:undefined); break;
+    case "mark": {const id=view==="quiz"?P.bag[P.i].id:RES.ids[V]; if(store.marks[id])delete store.marks[id]; else store.marks[id]=1; save(); t.setAttribute("aria-pressed",!!store.marks[id]); break}
+    case "x-new": if(store.exam)ask({title:"新しい模擬試験を始めますか？",body:"途中の模擬試験は破棄されます。",ok:"新しく始める"},newExam); else newExam(); break;
+    case "x-resume": resumeExam(); break;
+    case "x-prev": if(X.i>0){X.i--;save();go("exam")} break;
+    case "x-next": if(X.i<29){X.i++;save();go("exam")} break;
+    case "x-flag": {const s=X.st[X.i]; s.flag=!s.flag; save(); t.setAttribute("aria-pressed",s.flag); break}
+    case "x-sheet": modalEl.innerHTML=sheetHTML(); break;
+    case "x-jump": X.i=+t.dataset.i; save(); closeModal(); go("exam"); break;
+    case "x-finish": {const un=X.st.filter(s=>!s.pick).length;
+      ask({title:"採点しますか？",body:un?`未解答が${un}問あります。未解答は不正解として採点します。`:"採点すると解答は変更できません。",ok:"採点する",cancel:"戻る"},()=>finishExam(false)); break}
+    case "x-quit": ask({title:"模擬試験を中断しますか？",body:"解答と残り時間は保存され、「模擬試験」タブから再開できます。",ok:"中断する",cancel:"続ける"},()=>{save();stopTick();tab="exam";go("home")}); break;
+    case "r-open": V=+t.dataset.i||0; go("review"); break;
+    case "r-back": go("result"); break;
+    case "v-prev": if(V>0){V--;go("review")} break;
+    case "v-next": if(V<29){V++;go("review")} break;
+    case "m-close": closeModal(); break;
+    case "m-ok": {const f=onOk; closeModal(); if(f)f(); break}
+  }
+});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&X)save()});
+
+/* ================= theme ================= */
 const BG={light:"#EDF0F3",dark:"#111419"};
 const curTheme=()=>document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light";
 function applyTheme(t){
@@ -740,20 +1050,19 @@ function toggleTheme(btn){
   const r=btn.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
   const end=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
   const clip=[`circle(0px at ${x}px ${y}px)`,`circle(${end}px at ${x}px ${y}px)`];
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){applyTheme(next);return}
+  if(reduced()){applyTheme(next);return}
   if(document.startViewTransition){
     const vt=document.startViewTransition(()=>applyTheme(next));
     vt.ready.then(()=>document.documentElement.animate({clipPath:clip},{duration:560,easing:"cubic-bezier(.45,0,.2,1)",pseudoElement:"::view-transition-new(root)"})).catch(()=>{});
     return;
   }
-  /* 古いSafari向け：新しい背景色の円を広げてから切り替える */
   const w=document.createElement("div"); w.className="wipe"; w.style.background=BG[next];
   document.body.appendChild(w);
-  const a=w.animate({clipPath:clip},{duration:460,easing:"cubic-bezier(.45,0,.2,1)",fill:"forwards"});
-  a.onfinish=()=>{applyTheme(next);w.animate({opacity:[1,0]},{duration:180,fill:"forwards"}).onfinish=()=>w.remove()};
+  const an=w.animate({clipPath:clip},{duration:460,easing:"cubic-bezier(.45,0,.2,1)",fill:"forwards"});
+  an.onfinish=()=>{applyTheme(next);w.animate({opacity:[1,0]},{duration:180,fill:"forwards"}).onfinish=()=>w.remove()};
 }
 applyTheme(curTheme());
-renderHome();
+render();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
 </body>
